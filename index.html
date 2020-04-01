@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Traces Netcoupe</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css">
+    <link rel="stylesheet" href="css/traces.css">
+
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+</head>
+<body>    
+
+	<div id="map"></div>
+</body>
+
+<script>
+var center = [45.2083466, 5.8512295];
+var tracksMetaData = null;
+var upperLeftBound = [43.54308333333333, 5.26635];
+var lowerRightBound = [46.27463333333334, 7.6895500000000006];
+
+// Create the map
+var map = L.map('map').setView(center, 5);
+
+// ----- Load MetaData -----
+$.ajax({
+            url: "/tracks/latest-tracks-metadata.json",
+            type: 'GET',
+            context: document.body,
+            success: function(result) {
+                // Get result metadata
+                metadata = result;
+                tracksMetaData = result;
+                targetDate = moment(metadata.targetDate, "YYYY_MM_DD");
+                startDate = moment(metadata.startDate, "YYYY_MM_DD HH:mm:ss");
+
+                targetDateToDisplay = targetDate.format("DD/MM/YYYY");
+                startDateToDisplay = moment(startDate).format("DD/MM/YYYY HH:mm:ss");
+                duration = metadata.duration;
+                flightsCount = metadata.flightsCount;
+
+                addImageOverlay();  // Add tracks image overlay
+            }
+        });
+
+function addImageOverlay() {
+  // add a marker in the given location
+  // L.marker(tracksMetaData.boundingBoxUpperLeft).addTo(map);
+  // L.marker(tracksMetaData.boundingBoxLowerRight).addTo(map);
+
+  var imageUrl = '/tracks/latest-tracks.png',
+  imageBounds = [ tracksMetaData.boundingBoxUpperLeft, tracksMetaData.boundingBoxLowerRight];
+
+  L.imageOverlay(imageUrl, imageBounds).addTo(map);
+};
+
+// Set up the OSM layer
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Data © <a href="http://osm.org/copyright">OpenStreetMap</a>',
+    maxZoom: 18
+  }).addTo(map);
+</script>
