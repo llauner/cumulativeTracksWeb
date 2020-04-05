@@ -1,0 +1,1 @@
+const HeatmapRestAPIEndpoint = "https://igcheatmap.appspot.com";
