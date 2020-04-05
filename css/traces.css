@@ -1,7 +1,14 @@
 html,
 body {
+  padding: 0;
+  margin: 0;
   height: 100%;
 }
-#map {
+html, body, #map {
   height: 100%;
+  font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+#sidebar {
+  height: 100px;
 }
