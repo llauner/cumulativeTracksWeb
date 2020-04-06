@@ -28,68 +28,68 @@
     <script src="js/airspace.js"></script>
 </head>
 <body>    
-  <div id="sidebar" class="sidebar collapsed">
-    <!-- Nav tabs -->
-    <div class="sidebar-tabs">
-        <ul role="tablist">
-            <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
-            <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
-        </ul>
-    </div>
-
-    <!-- Tab panes -->
-    <div class="sidebar-content">
-        <div class="sidebar-pane" id="home">
-            <h1 class="sidebar-header">
-                Cumulative Tracks
-                <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
-            </h1>
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-6">
-                    <div class="item">Analyse du:</div>
-                </div>
-                <div class="col-sm-6">
-                    <div id="start-date" class="item"></div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="item">Durée calcul:</div>
-                </div>
-                <div class="col-sm-6">
-                    <div id="duration" class="item"></div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="item">Nb Vols:</div>
-                </div>
-                <div class="col-sm-6">
-                    <div id="flights-count" class="item"></div>
-                </div>
-            </div>
-            </div>
+    <div id="sidebar" class="sidebar collapsed">
+        <!-- Nav tabs -->
+        <div class="sidebar-tabs">
+            <ul role="tablist">
+                <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+            </ul>
         </div>
 
-        <div class="sidebar-pane" id="settings">
-            <h1 class="sidebar-header">Configuration<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-            <div class="container">
-              <div class="row" id="switch-airspace-container">
-                <div class="col-sm-12">
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input d-none" id="switch-airspace">
-                        <label class="custom-control-label" for="switch-airspace">Espace Aérien</label>
+        <!-- Tab panes -->
+        <div class="sidebar-content">
+            <div class="sidebar-pane" id="home">
+                <h1 class="sidebar-header">
+                    Cumulative Tracks
+                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+                <div class="container">
+                    <div class="row">
+                    <div class="col-sm-6">
+                        <div class="item">Analyse du:</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div id="start-date" class="item"></div>
                     </div>
                 </div>
-              </div>
-            </div>
-        </div>
 
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="item">Durée calcul:</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div id="duration" class="item"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="item">Nb Vols:</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div id="flights-count" class="item"></div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Configuration<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                <div class="container">
+                    <div class="row" id="switch-airspace-container">
+                        <div class="col-sm-12">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input d-none" id="switch-airspace">
+                                <label class="custom-control-label" for="switch-airspace">Espace Aérien</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
-</div>
 
 	<div id="map"></div>
 </body>

@@ -5,4 +5,6 @@
         var show = $('#switch-airspace').is(':checked');
         isAirspaceShown = show;
         showHideAirspace(isAirspaceShown);
-    });
+	});
+	
+	
