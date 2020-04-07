@@ -14,6 +14,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sidebar-v2@0.4.0/css/leaflet-sidebar.css" integrity="sha256-FIZlRBXnW3JL4Pb7oAW2QNCGAG5uJqYlFbZb9qAKaso=" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+    <link rel="stylesheet" href="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.css" />
     <link rel="stylesheet" href="css/traces.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -23,16 +24,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sidebar-v2@0.4.0/js/leaflet-sidebar.js" integrity="sha256-NQzshErvg7W7EhLN0umegsGFdejTaaAWM/vzq1yfSEg=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.Spin/1.1.2/leaflet.spin.min.js"></script>
     <script src="js/common.js"></script>
     <script src="js/application.js"></script>
     <script src="js/airspace.js"></script>
+    <script src="js/measuringTool.js"></script>
 </head>
 <body>    
     <div id="sidebar" class="sidebar collapsed">
         <!-- Nav tabs -->
         <div class="sidebar-tabs">
             <ul role="tablist">
-                <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+                <li><a href="#home" role="tab"><i class="fa fa-info"></i></a></li>
                 <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
             </ul>
         </div>
@@ -81,12 +86,16 @@
             <div class="sidebar-pane" id="settings">
                 <h1 class="sidebar-header">Configuration<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
                 <div class="container">
+                    <!-- Airspace -->
                     <div class="row" id="switch-airspace-container">
                         <div class="col-sm-12">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input d-none" id="switch-airspace">
-                                <label class="custom-control-label" for="switch-airspace">Espace Aérien</label>
-                            </div>
+                            <label class="form-check-label"><input type="checkbox" class="form-check-input" id="switch-airspace">Espace Aérien</label>
+                        </div>
+                    </div>
+                    <!-- Measuring tool -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label class="form-check-label"><input class="form-check-input" type="checkbox" id="chk-show-measuring-tools">Outils de mesure</label>
                         </div>
                     </div>
                 </div>
@@ -116,6 +125,7 @@ var _map = L.map('map', {
 var sidebar = L.control.sidebar('sidebar').addTo(_map);
 
 // ----- Load MetaData -----
+_map.spin(true);
 $.ajax({
             url: "/tracks/latest-tracks-metadata.json",
             type: 'GET',
@@ -142,6 +152,9 @@ $.ajax({
                 $('#processed-flights-count').html(processedFlightsCount);
 
                 addImageOverlay();  // Add tracks image overlay
+            },
+            complete: function(jqXHR, textStatus) {
+                _map.spin(false);
             }
         });
 
@@ -185,6 +198,9 @@ var Thunderforest_Outdoors = L.tileLayer('https://{s}.tile.thunderforest.com/out
 	maxZoom: maxZoomLevel
 });
 Thunderforest_Outdoors.addTo(_map);
+
+// Add scale
+L.control.scale ({maxWidth:240, metric:true, imperial:false, position: 'bottomleft'}).addTo(_map);
 
   // ---------- Document loaded ----------
   $(function () {
