@@ -20,6 +20,7 @@ function loadChart() {
 
 	// Create chart instance
 	chart = am4core.create("chartdiv", am4charts.XYChart);
+	_map.spin(true);
 	$.ajax({
                 url: "/tracks/latest-tracks-statistics.json",
                 type: 'GET',
@@ -30,7 +31,7 @@ function loadChart() {
                     
                 },
                 complete: function(jqXHR, textStatus) {
-                
+					_map.spin(false);
                 }
             });
 };
