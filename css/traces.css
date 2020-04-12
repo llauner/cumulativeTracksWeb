@@ -15,3 +15,7 @@ html, body, #map {
 .sidebar-content {
   overflow: hidden;
 }
+
+.sidebar.collapsed, .sidebar-tabs, .sidebar-tabs > ul {
+  width:35px;
+}

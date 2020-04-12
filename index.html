@@ -9,28 +9,50 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sidebar-v2@0.4.0/css/leaflet-sidebar.css" integrity="sha256-FIZlRBXnW3JL4Pb7oAW2QNCGAG5uJqYlFbZb9qAKaso=" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
-    <link rel="stylesheet" href="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.css" />
-    <link rel="stylesheet" href="css/traces.css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/e8228d78b3.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sidebar-v2@0.4.0/css/leaflet-sidebar.css" integrity="sha256-FIZlRBXnW3JL4Pb7oAW2QNCGAG5uJqYlFbZb9qAKaso=" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/sidebar-v2@0.4.0/js/leaflet-sidebar.js" integrity="sha256-NQzshErvg7W7EhLN0umegsGFdejTaaAWM/vzq1yfSEg=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+    <link rel="stylesheet" href="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.css" />
     <script src="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.js"></script>
+
+    <script src="https://rawgit.com/mapshakers/leaflet-control-window/master/src/L.Control.Window.js"></script>
+    <link rel="stylesheet" href="https://rawgit.com/mapshakers/leaflet-control-window/master/src/L.Control.Window.css" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.Spin/1.1.2/leaflet.spin.min.js"></script>
+    
+    <link rel="stylesheet" href="css/application.css">
+    <link rel="stylesheet" href="css/traces.css">
+    <link rel="stylesheet" href="css/statistics.css">
+    
+
     <script src="js/common.js"></script>
     <script src="js/application.js"></script>
     <script src="js/airspace.js"></script>
     <script src="js/measuringTool.js"></script>
+    <script src="js/statistics.js"></script>
+
 </head>
 <body>    
     <div id="sidebar" class="sidebar collapsed">
@@ -117,92 +139,15 @@ var center = [47.5, 4.8];
 //center = [45.5917, 5.8813];
 
 var tracksMetaData = null;
-
-// Create the map
-var _map = L.map('map', {
-    maxBoundsViscosity: 1
-}).setView(center, zoomLevel);
-var sidebar = L.control.sidebar('sidebar').addTo(_map);
-
-// ----- Load MetaData -----
-_map.spin(true);
-$.ajax({
-            url: "/tracks/latest-tracks-metadata.json",
-            type: 'GET',
-            context: document.body,
-            success: function(result) {
-                // Get result metadata
-                metadata = result;
-                tracksMetaData = result;
-                targetDate = moment(metadata.targetDate, "YYYY_MM_DD");
-                startDate = moment(metadata.startDate, "YYYY_MM_DD HH:mm:ss");
-
-                targetDateToDisplay = targetDate.format("DD/MM/YYYY");
-                startDateToDisplay = moment(startDate).format("DD/MM/YYYY HH:mm:ss");
-                duration = metadata.duration;
-                flightsCount = metadata.flightsCount;
-                processedFlightsCount = metadata.processedFlightsCount;
-
-                // --- Init interface ---
-                // --- Populate information panel
-                $('#target-date').html(targetDateToDisplay);
-                $('#start-date').html(startDateToDisplay);
-                $('#duration').html(duration);
-                $('#flights-count').html(flightsCount);
-                $('#processed-flights-count').html(processedFlightsCount);
-
-                addImageOverlay();  // Add tracks image overlay
-            },
-            complete: function(jqXHR, textStatus) {
-                _map.spin(false);
-            }
-        });
-
-// --- Load Airspace ---
-setupAirspace();
-
-function addImageOverlay() {
-  // add a marker in the given location
-  //L.marker(tracksMetaData.boundingBoxUpperLeft).addTo(_map); 
-  //L.marker(tracksMetaData.boundingBoxLowerRight).addTo(_map);
-
-    var imageUrl = '/tracks/latest-tracks.png',
-    imageBounds = [ tracksMetaData.boundingBoxUpperLeft, tracksMetaData.boundingBoxLowerRight];
-    L.imageOverlay(imageUrl, imageBounds).addTo(_map);
-
-    // Map Bounds : add margin and set
-    const boundPadding = 10;
-    maxBounds = imageBounds.slice();
-    maxBounds[0][0] -= boundPadding;
-    maxBounds[0][1] -= boundPadding;
-    maxBounds[1][0] += boundPadding;
-    maxBounds[1][1] += boundPadding;
-
-    //L.marker(maxBounds[0]).addTo(_map);
-    //L.marker(maxBounds[1]).addTo(_map);
-
-    _map.setMaxBounds(maxBounds);     // Max bounds: preventes map from panning
-};
-
-// Set up the OSM layer
-// var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-// 	maxZoom: 19,
-// 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-// });
-// OpenStreetMap_Mapnik.addTo(_map);
-
-var Thunderforest_Outdoors = L.tileLayer('https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey={apikey}', {
-	attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    apikey: '45799462d9f6496aba635de79c086ea2',
-    minZoom: zoomLevel,
-	maxZoom: maxZoomLevel
-});
-Thunderforest_Outdoors.addTo(_map);
-
-// Add scale
-L.control.scale ({maxWidth:240, metric:true, imperial:false, position: 'bottomleft'}).addTo(_map);
+var _map = null;
+var _statWindow = null
+var _easy = null;
 
   // ---------- Document loaded ----------
   $(function () {
+    setupMap();
+    setupEasyButtons();
+    
+    
   });
 </script>

@@ -16,3 +16,11 @@ function () {
 	
 
 
+// ----- Easy buttons -----
+function setupEasyButtons() {
+    _easy = L.easyButton( 'fas fa-chart-line', function(){
+        showStatistics();
+    });
+
+    _easy.addTo(_map);
+}
