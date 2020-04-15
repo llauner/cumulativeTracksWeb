@@ -110,8 +110,18 @@
                 <div class="container">
                     <!-- Airspace -->
                     <div class="row" id="switch-airspace-container">
-                        <div class="col-sm-12">
+                        <div class="col-sm-4">
                             <label class="form-check-label"><input type="checkbox" class="form-check-input" id="switch-airspace">Espace Aérien</label>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="btn-group btn-group-sm btn-group-toggle disabled" data-toggle="buttons" id="group-airspace-layer-selector">
+                                <label class="btn btn-outline-primary active">
+                                  <input type="radio" name="options" id="chk-vector-airspace" autocomplete="off" checked> Vector layer
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                  <input type="radio" name="options" id="chk-openaip-airspace" autocomplete="off"> OpenAip Tiles Layer
+                                </label>
+                              </div>
                         </div>
                     </div>
                     <!-- Measuring tool -->
@@ -140,6 +150,10 @@ var center = [47.5, 4.8];
 
 var tracksMetaData = null;
 var _map = null;
+var _isAirspaceVisible = false;
+var _layerOpenAirspaceLabels = null;
+var _layerOpeneAirspace = null;
+
 var _statWindow = null
 var _easy = null;
 

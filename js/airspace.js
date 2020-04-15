@@ -30,17 +30,40 @@ function configureAirspace() {
 }
 
 function showHideAirspace(visible) {
-	// Create layer if needed
-	if (visible && !_airspaceLayer) {
-		configureAirspace();
+	_isAirspaceVisible = visible;
+	// --- Vector airspace ---
+	if (_isVectorAirspaceSelected) {
+		// Create layer if needed
+		if (visible && !_airspaceLayer) {
+			configureAirspace();
+		}
+		else if (visible) {
+			_airspaceLayer.addTo(_map);
+		}
+		if (visible) {
+			// Hide other airspace layer
+			_layerOpeneAirspace.remove();
+			_layerOpenAirspaceLabels.remove();
+		}
+		// --- Hide
+		else {
+			_airspaceLayer.remove();
+		}
 	}
-	else if (visible) {
-        _airspaceLayer.addTo(_map);
+	// --- OpenAip Tiles airspace ---
+	else {
+		if (visible) {
+			_layerOpeneAirspace.addTo(_map);
+			_layerOpenAirspaceLabels.addTo(_map);
+			_airspaceLayer.remove(); // Hide other airspace layer
+		} else {
+			_layerOpeneAirspace.remove();
+			_layerOpenAirspaceLabels.remove();
+		}
+			
+
 	}
-	 // --- Hide
-    else {
-        _airspaceLayer.remove();
-    }
+	
 }
 
 function getAreaColor(feature){
@@ -76,4 +99,10 @@ function labelStyle(feature, layer) {
 					feature.properties.CEILING + "	&#92; " +
 					feature.properties.FLOOR;
 	layer.bindTooltip(labelText, {opacity: 0.7});
+}
+
+function showAirspaceLabels() {
+	if (_isAirspaceVisible && _layerOpenAirspaceLabels) {
+		_layerOpenAirspaceLabels.redraw();
+	}
 }

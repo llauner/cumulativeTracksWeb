@@ -70,7 +70,7 @@ function setupMap() {
         L.imageOverlay(imageUrl, imageBounds).addTo(_map);
 
         // Map Bounds : add margin and set
-        const boundPadding = 10;
+        const boundPadding = 8;
         maxBounds = imageBounds.slice();
         maxBounds[0][0] -= boundPadding;
         maxBounds[0][1] -= boundPadding;
@@ -81,6 +81,9 @@ function setupMap() {
         //L.marker(maxBounds[1]).addTo(_map);
 
         _map.setMaxBounds(maxBounds);     // Max bounds: preventes map from panning
+        // --- map Events ---
+        _map.on('moveend', showAirspaceLabels);
+        _map.on('zoomend', showAirspaceLabels);
     };
 
     // Set up the OSM layer
@@ -94,9 +97,32 @@ function setupMap() {
         attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         apikey: '45799462d9f6496aba635de79c086ea2',
         minZoom: zoomLevel,
-        maxZoom: maxZoomLevel
+        maxZoom: maxZoomLevel,
+        subdomains: ['a', 'b', 'c']
     });
     Thunderforest_Outdoors.addTo(_map);
+
+    _layerOpeneAirspace = new L.TileLayer("http://{s}.tile.maps.openaip.net/geowebcache/service/tms/1.0.0/openaip_basemap@EPSG%3A900913@png/{z}/{x}/{y}.png", {
+                maxZoom: maxZoomLevel+1,
+                minZoom: zoomLevel,
+                tms: true,
+                detectRetina: true,
+                subdomains: '12',
+                format: 'image/png',
+                transparent: true
+            });
+    //_layerOpeneAirspace.addTo(_map);
+
+    _layerOpenAirspaceLabels = new L.TileLayer.WMS("http://{s}.tile.maps.openaip.net/geowebcache/service/wms", {
+                maxZoom: maxZoomLevel+1,
+                minZoom: zoomLevel,
+                layers: 'openaip_approved_airspaces_labels',
+                tileSize: 1024,
+                detectRetina: true,
+                subdomains: '12',
+                format: 'image/png',
+                transparent: true
+            });
 
     // Add scale
     L.control.scale ({maxWidth:240, metric:true, imperial:false, position: 'bottomleft'}).addTo(_map);
