@@ -59,6 +59,7 @@ function setupMap() {
 
     // --- Load Airspace ---
     setupAirspace();
+    setupAirspace_openAipVector();
 
     function addImageOverlay() {
     // add a marker in the given location
@@ -82,7 +83,7 @@ function setupMap() {
 
         _map.setMaxBounds(maxBounds);     // Max bounds: preventes map from panning
         // --- map Events ---
-        _map.on('moveend', showAirspaceLabels);
+        // _map.on('moveend', showAirspaceLabels);
         _map.on('zoomend', showAirspaceLabels);
     };
 
@@ -102,7 +103,7 @@ function setupMap() {
     });
     Thunderforest_Outdoors.addTo(_map);
 
-    _layerOpeneAirspace = new L.TileLayer("http://{s}.tile.maps.openaip.net/geowebcache/service/tms/1.0.0/openaip_basemap@EPSG%3A900913@png/{z}/{x}/{y}.png", {
+    _layerOpenAipTilesAirspace = new L.TileLayer("http://{s}.tile.maps.openaip.net/geowebcache/service/tms/1.0.0/openaip_basemap@EPSG%3A900913@png/{z}/{x}/{y}.png", {
                 maxZoom: maxZoomLevel+1,
                 minZoom: zoomLevel,
                 tms: true,
@@ -111,7 +112,6 @@ function setupMap() {
                 format: 'image/png',
                 transparent: true
             });
-    //_layerOpeneAirspace.addTo(_map);
 
     _layerOpenAirspaceLabels = new L.TileLayer.WMS("http://{s}.tile.maps.openaip.net/geowebcache/service/wms", {
                 maxZoom: maxZoomLevel+1,

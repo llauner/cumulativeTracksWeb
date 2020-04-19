@@ -1,5 +1,7 @@
-var _airspaceLayer = null;
+var _layerOpenAirVectorAirspace = null;
 var _airspaceGeojson = null;
+
+var _airspaceLabelsMinZoom = 9;
 
 function setupAirspace() {
     var airspaceUrl = HeatmapRestAPIEndpoint + "/airspace/geojson";
@@ -12,7 +14,8 @@ function setupAirspace() {
             if (typeof (result) !== 'object') {
                 result = JSON.parse(result);
             }
-            _airspaceGeojson = result;  
+			_airspaceGeojson = result;
+			configureAirspace();  
         },
         error: function(result, status, errorThrown) {
             console.log(errorThrown);
@@ -22,48 +25,17 @@ function setupAirspace() {
 }
 
 function configureAirspace() {
-	_airspaceLayer = L.geoJSON(_airspaceGeojson,
-			{style: areaStyle,
-			onEachFeature: labelStyle,
-			}
-		).addTo(_map);
+	_layerOpenAirVectorAirspace = L.geoJSON(_airspaceGeojson,
+		{style: areaStyle,
+		onEachFeature: labelStyle,
+		}
+	);
 }
 
 function showHideAirspace(visible) {
-	_isAirspaceVisible = visible;
-	// --- Vector airspace ---
-	if (_isVectorAirspaceSelected) {
-		// Create layer if needed
-		if (visible && !_airspaceLayer) {
-			configureAirspace();
-		}
-		else if (visible) {
-			_airspaceLayer.addTo(_map);
-		}
-		if (visible) {
-			// Hide other airspace layer
-			_layerOpeneAirspace.remove();
-			_layerOpenAirspaceLabels.remove();
-		}
-		// --- Hide
-		else {
-			_airspaceLayer.remove();
-		}
-	}
-	// --- OpenAip Tiles airspace ---
-	else {
-		if (visible) {
-			_layerOpeneAirspace.addTo(_map);
-			_layerOpenAirspaceLabels.addTo(_map);
-			_airspaceLayer.remove(); // Hide other airspace layer
-		} else {
-			_layerOpeneAirspace.remove();
-			_layerOpenAirspaceLabels.remove();
-		}
-			
-
-	}
-	
+	showHideOpenAirAirspace(visible && _isOpenAirVectorAirspaceSelected);
+	showHideOpenAipTileAirspace(visible && _isOpenAipTilesAirspaceSelected);
+	showHideOpenAipVectorAirspace(visible && _isOpenAipVectorAirspaceSelected);
 }
 
 function getAreaColor(feature){
@@ -102,7 +74,34 @@ function labelStyle(feature, layer) {
 }
 
 function showAirspaceLabels() {
-	if (_isAirspaceVisible && _layerOpenAirspaceLabels) {
-		_layerOpenAirspaceLabels.redraw();
+	// Labels for Open AIP Vector layer
+	if (_map.hasLayer(_layerOpenAipVectorAirspace)) {
+		if (_isLayerOpenAipVectorAirspaceLabelsShown && _map.getZoom() <= _airspaceLabelsMinZoom) {
+			showHideOpenAipVectorAirspaceLabels(false);
+		}
+		else if (!_isLayerOpenAipVectorAirspaceLabelsShown && _map.getZoom() > _airspaceLabelsMinZoom) {
+			showHideOpenAipVectorAirspaceLabels(true);
+		}
+	}
+}
+
+function showHideOpenAipTileAirspace(show) {
+	if (show) {
+		_layerOpenAipTilesAirspace.addTo(_map);
+	}
+	else {
+		_layerOpenAipTilesAirspace.remove();
+		
+	}
+}
+
+function showHideOpenAirAirspace(show) {
+	if (show) {
+		_layerOpenAirVectorAirspace.addTo(_map);
+		_layerOpenAirspaceLabels.addTo(_map);
+	}
+	else {
+		_layerOpenAirVectorAirspace.remove();
+		_layerOpenAirspaceLabels.remove();
 	}
 }

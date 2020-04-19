@@ -1,5 +1,6 @@
-var _isVectorAirspaceSelected = true;
-var _isOpenaipAirspaceSelected = false;
+var _isOpenAirVectorAirspaceSelected = true;
+var _isOpenAipTilesAirspaceSelected = false;
+var _isOpenAipVectorAirspaceSelected = false;
 
 // ----- Event handlers -----
 // --- Show / hide airspace ---
@@ -16,19 +17,11 @@ function () {
 });
 
 // --- Change airspace type ---
-$('#chk-vector-airspace, #chk-openaip-airspace').on('change',
+$('#chk-vector-airspace, #chk-openaip-airspace, #chk-openaip-vector-airspace').on('change',
 function () {
-    var isVectorAirspaceSelected = $('#chk-vector-airspace').is(':checked');
-    // Vector airspace selected
-    if (isVectorAirspaceSelected) {
-        _isVectorAirspaceSelected = true;
-        _isOpenaipAirspaceSelected = false;
-    }
-    // OpenAip airspace selected
-    else {
-        _isVectorAirspaceSelected = false;
-        _isOpenaipAirspaceSelected = true;
-    }
+    _isOpenAirVectorAirspaceSelected = $('#chk-vector-airspace').is(':checked');
+    _isOpenAipTilesAirspaceSelected = $('#chk-openaip-airspace').is(':checked');
+    _isOpenAipVectorAirspaceSelected = $('#chk-openaip-vector-airspace').is(':checked');
     showHideAirspace(true);
 });
 
