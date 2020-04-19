@@ -1,10 +1,14 @@
 var _openAipVectorAirspaceGeojson = null;
+var _openAipVectorAirspaceMetadata = null;
 var _openAipVectorAirspaceMarkers = [];
 
 var _assetLayerGroup = new L.LayerGroup();
 
 function setupAirspace_openAipVector() {
     var airspaceUrl = NetcoupeAirspaceDataUrl + OpenAipGeojsonFileName;
+    var metadataUrl = NetcoupeAirspaceDataUrl + OpenAipVectorAirspaceMetadataFileName
+
+    // -- Get openaip-airspace.geojson ---
     $.ajax({
         url: airspaceUrl,
         type: 'GET',
@@ -20,6 +24,25 @@ function setupAirspace_openAipVector() {
         error: function(result, status, errorThrown) {
             console.log(errorThrown);
             toastr["error"]("Could not load Airspace: " + airspaceUrl);
+        }
+    });
+
+    // --- Get metadata ---
+    $.ajax({
+        url: metadataUrl,
+        type: 'GET',
+        context: document.body,
+        dataType: "json",
+        success: function(result) {
+            if (typeof (result) !== 'object') {
+                result = JSON.parse(result);
+            }
+            _openAipVectorAirspaceMetadata = result;
+            initToolTip_OpenAipVector(_openAipVectorAirspaceMetadata);
+        },
+        error: function(result, status, errorThrown) {
+            console.log(errorThrown);
+            toastr["error"]("Could not load Airspace metadata: " + metadataUrl);
         }
     });
 }

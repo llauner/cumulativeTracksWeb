@@ -42,3 +42,35 @@ function setupEasyButtons() {
 
     _easy.addTo(_map);
 }
+
+// --- Init tooltips ---
+function initToolTip_OpenAipVector(metadata) {
+    var text = `Source: OpenAip<br>Date: ${metadata.date}<br>Airspace Count: ${metadata.airspaceCount}`;
+    $('[data-toggle="tooltip"]').tooltip({
+        placement: 'auto',
+        html: true,
+        title: text
+    })
+}
+
+function initToolTip_OpenAir() {
+    var text = `Source: Netcoupe OpenAir`;
+    $('[data-toggle="tooltip-openair"]').tooltip({
+        placement: 'auto',
+        html: true,
+        title: text
+    })
+}
+
+function initToolTip_OpenAipTiles() {
+    var text = `Source: OpenAip<br>Date: latest...`;
+    $('[data-toggle="tooltip-openaip-tiles"]').tooltip({
+        placement: 'auto',
+        html: true,
+        title: text
+    })
+}
+
+function initInterface() {
+    initToolTip_OpenAipTiles();
+}

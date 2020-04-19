@@ -5,3 +5,6 @@
 .btn-group {
 	padding-top: 1px;
 }
+.tooltip {
+	z-index: 2000 !important;
+	}

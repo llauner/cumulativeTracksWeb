@@ -4,6 +4,7 @@ var _airspaceGeojson = null;
 var _airspaceLabelsMinZoom = 9;
 
 function setupAirspace() {
+	// --- Get Netcoupe OpenAir airsapce ---
     var airspaceUrl = HeatmapRestAPIEndpoint + "/airspace/geojson";
     $.ajax({
         url: airspaceUrl,
@@ -15,13 +16,14 @@ function setupAirspace() {
                 result = JSON.parse(result);
             }
 			_airspaceGeojson = result;
-			configureAirspace();  
+			configureAirspace();
+			initToolTip_OpenAir();  
         },
         error: function(result, status, errorThrown) {
             console.log(errorThrown);
             toastr["error"]("Could not load Airspace: " + airspaceUrl);
         }
-    });
+	});
 }
 
 function configureAirspace() {
