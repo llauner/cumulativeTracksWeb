@@ -179,24 +179,9 @@ var _statWindow = null
 var _easy = null;
 
   // ---------- Document loaded ----------
-  $(function () {
+$(function () {
     setupMap();
     setupEasyButtons();
     initInterface();
-
-//   var markers = [];
-//     for (var i = 0; i < 1500; i++) {
-//         img = 'data:image/svg+xml,' + encodeURIComponent(svgText(i));
-//         icon = L.icon({
-//             iconUrl: img,
-//             iconSize: [40, 30],
-//             iconAnchor: [20, 15]
-//         });
-
-//       var marker = L.marker([45 + Math.random()*1.8, 6 + Math.random()*3.6], {icon: icon}).bindPopup("I Am "+i);
-//     markers.push(marker);
-//     }
-
-//     _layerOpenAipVectorAirspaceLabels.addLayers(markers);
-  });
+});
 </script>
