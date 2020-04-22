@@ -53,8 +53,8 @@ function initToolTip_OpenAipVector(metadata) {
     })
 }
 
-function initToolTip_OpenAir() {
-    var text = `Source: Netcoupe OpenAir`;
+function initToolTip_OpenAir(metadata) {
+    var text = `Source: ${metadata.source}<br>Date:${metadata.date}`;
     $('[data-toggle="tooltip-openair"]').tooltip({
         placement: 'auto',
         html: true,

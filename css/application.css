@@ -8,3 +8,8 @@
 .tooltip {
 	z-index: 2000 !important;
 	}
+
+.tooltip-inner {
+	max-width: 600px;
+	text-align: left;
+}

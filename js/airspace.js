@@ -1,11 +1,14 @@
 var _layerOpenAirVectorAirspace = null;
 var _airspaceGeojson = null;
+var _openAirVectorAirspaceMetadata = null;
 
 var _airspaceLabelsMinZoom = 9;
 
 function setupAirspace() {
 	// --- Get Netcoupe OpenAir airsapce ---
-    var airspaceUrl = HeatmapRestAPIEndpoint + "/airspace/geojson";
+	var airspaceUrl = NetcoupeAirspaceDataUrl + OpenAirGeojsonFileName;
+	var metadataUrl = NetcoupeAirspaceDataUrl + OpenAirMetadataFileName;
+
     $.ajax({
         url: airspaceUrl,
         type: 'GET',
@@ -17,13 +20,31 @@ function setupAirspace() {
             }
 			_airspaceGeojson = result;
 			configureAirspace();
-			initToolTip_OpenAir();  
         },
         error: function(result, status, errorThrown) {
             console.log(errorThrown);
             toastr["error"]("Could not load Airspace: " + airspaceUrl);
         }
 	});
+
+	// --- Get metadata ---
+    $.ajax({
+        url: metadataUrl,
+        type: 'GET',
+        context: document.body,
+        dataType: "json",
+        success: function(result) {
+            if (typeof (result) !== 'object') {
+                result = JSON.parse(result);
+            }
+            _openAirVectorAirspaceMetadata = result;
+            initToolTip_OpenAir(_openAirVectorAirspaceMetadata);
+        },
+        error: function(result, status, errorThrown) {
+            console.log(errorThrown);
+            toastr["error"]("Could not load Airspace metadata: " + metadataUrl);
+        }
+    });
 }
 
 function configureAirspace() {
