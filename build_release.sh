@@ -9,3 +9,6 @@ cp ./*.html ./release
 cp -R ./css ./release
 cp -R ./js ./release
 
+echo "Remove unwanted files"
+rm ./release/test.html
+
