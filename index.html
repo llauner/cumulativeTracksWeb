@@ -57,6 +57,8 @@
     <script src="js/application.js"></script>
     <script src="js/openAipAirspace.js"></script>
     <script src="js/airspace.js"></script>
+    <script src="js/rasterTracks.js"></script>
+    <script src="js/vectorTracks.js"></script>
     <script src="js/measuringTool.js"></script>
     <script src="js/statistics.js"></script>
 
@@ -115,6 +117,24 @@
             <div class="sidebar-pane" id="settings">
                 <h1 class="sidebar-header">Configuration<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
                 <div class="container">
+                    <!-- Tracks layer selection-->
+                    <div class="row" id="switch-tracks-layer-container">
+                        <div class="col-sm-3">
+                            <label class="form-check-label">Traces</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons" id="group-tracks-layer-selector">
+                                <!-- Vector-->
+                                <label class="btn btn-outline-primary active" data-toggle="tooltip-vector-tracks">
+                                    <input type="radio" name="options" id="chk-vector-tracks" autocomplete="off" checked>Traces Vectorielles
+                                </label>
+                                <!-- Image -->
+                                <label class="btn btn-outline-primary" data-toggle="tooltip-raster-tracks">
+                                    <input type="radio" name="options" id="chk-raster-tracks" autocomplete="off">Image
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Airspace -->
                     <div class="row" id="switch-airspace-container">
                         <div class="col-sm-3">
@@ -161,7 +181,7 @@ var isAirspaceShown = false;
 
 // --- Map related --
 var zoomLevel = 6;
-var maxZoomLevel = 12;
+var maxZoomLevel = 14;
 var center = [47.5, 4.8];
 //center = [45.5917, 5.8813];
 
@@ -183,5 +203,8 @@ $(function () {
     setupMap();
     setupEasyButtons();
     initInterface();
+
+    setupVectorTracks();
+    setupRasterTracks();
 });
 </script>

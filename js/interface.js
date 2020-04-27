@@ -1,3 +1,8 @@
+
+// Tracks layer
+var _isRasterTracksLayerSelected = false;
+var _isVectorTracksLayerSelected = true;
+// Airspace layer
 var _isOpenAirVectorAirspaceSelected = true;
 var _isOpenAipTilesAirspaceSelected = false;
 var _isOpenAipVectorAirspaceSelected = false;
@@ -15,6 +20,17 @@ function () {
     else
         $('#group-airspace-layer-selector').removeClass('disabled');
 });
+
+// --- Change Track type ---
+$('#chk-vector-tracks, #chk-raster-tracks').on('change',
+function () {
+    _isVectorTracksLayerSelected = $('#chk-vector-tracks').is(':checked');
+    _isRasterTracksLayerSelected = $('#chk-raster-tracks').is(':checked');
+
+    showHideVectorTracks(_isVectorTracksLayerSelected);
+    showHideRasterTracks(_isRasterTracksLayerSelected);
+});
+
 
 // --- Change airspace type ---
 $('#chk-vector-airspace, #chk-openaip-airspace, #chk-openaip-vector-airspace').on('change',

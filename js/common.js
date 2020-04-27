@@ -1,6 +1,9 @@
 const HeatmapRestAPIEndpoint = "https://igcheatmap.appspot.com";
 const NetcoupeAirspaceDataUrl = "/airspacedata/";
 
+// Vector Tracks
+const GeojsonTracksFileName = "latest-tracks.geojson"
+
 // OpenAIP
 const OpenAipGeojsonFileName = "openaip-airspace.geojson";
 const OpenAipVectorAirspaceMetadataFileName = "openaip-airspace-metadata.json";

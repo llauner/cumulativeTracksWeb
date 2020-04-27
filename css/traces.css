@@ -10,7 +10,7 @@ html, body, #map {
 
 .sidebar {
   top:80px;
-  height: 100px;
+  height: var(--sidebar-height);
 }
 .sidebar-content {
   overflow: hidden;
