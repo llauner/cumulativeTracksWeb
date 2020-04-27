@@ -4,6 +4,7 @@ const NetcoupeTracksDataUrl = "/tracks/"
 
 // Vector Tracks
 const GeojsonTracksFileName = "latest-tracks.geojson"
+const ZipGeojsonTracksFileName = "latest-tracks.geojson.zip"
 
 // OpenAIP
 const OpenAipGeojsonFileName = "openaip-airspace.geojson";

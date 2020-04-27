@@ -19,3 +19,8 @@ html, body, #map {
 .sidebar.collapsed, .sidebar-tabs, .sidebar-tabs > ul {
   width:35px;
 }
+
+.colorpicker-input-addon {
+  background-color: transparent;
+  border: none;
+}

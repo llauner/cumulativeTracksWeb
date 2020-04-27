@@ -13,6 +13,10 @@
 	z-index: 2000 !important;
 	}
 
+.popover {
+	z-index: 2000;
+}
+
 .tooltip-inner {
 	max-width: 600px;
 	text-align: left;

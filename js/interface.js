@@ -90,3 +90,17 @@ function initToolTip_OpenAipTiles() {
 function initInterface() {
     initToolTip_OpenAipTiles();
 }
+
+// ---  Color Picker ---
+$('#color-picker').colorpicker({
+    color: vectorTracksStyle.color,
+    format: "hexa",
+    useAlpha: true
+});
+
+$('#color-picker').on('colorpickerChange', function(event) {
+    //$('#color-pciker').css('background-color', event.color.toString());
+    var color = event.color.toHexString();
+    var alpha = event.color._color.valpha;
+    updateVectorTracksStyle(color, alpha);
+    });
