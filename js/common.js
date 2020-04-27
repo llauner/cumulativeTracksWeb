@@ -1,5 +1,6 @@
 const HeatmapRestAPIEndpoint = "https://igcheatmap.appspot.com";
 const NetcoupeAirspaceDataUrl = "/airspacedata/";
+const NetcoupeTracksDataUrl = "/tracks/"
 
 // Vector Tracks
 const GeojsonTracksFileName = "latest-tracks.geojson"

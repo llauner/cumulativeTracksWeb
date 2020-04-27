@@ -13,7 +13,7 @@ var vectorTracksStyle = {
  */
 function setupVectorTracks() {
 	// --- Get Netcoupe OpenAir airsapce ---
-	var vectorTracksUrl = NetcoupeAirspaceDataUrl + GeojsonTracksFileName;
+	var vectorTracksUrl = NetcoupeTracksDataUrl + GeojsonTracksFileName;
 	_map.spin(true);
     $.ajax({
         url: vectorTracksUrl,
