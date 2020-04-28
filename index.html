@@ -46,6 +46,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.Spin/1.1.2/leaflet.spin.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.4.0/dist/jszip.min.js" integrity="sha256-Uktz9Z+RdiKZoEPBkqU9DGKjNVUe9eVSlKB3EMd4uto=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip-utils@0.1.0/dist/jszip-utils.min.js" integrity="sha256-5GhqDpPB1bpRluB0hmS7EJkMH+EVyqUP00CvFEksTVw=" crossorigin="anonymous"></script>
+    <!--
+    Mandatory in IE 6, 7, 8 and 9.
+    -->
+    <!--[if IE]>
+    <script src="https://cdn.jsdelivr.net/npm/jszip-utils@0.1.0/dist/jszip-utils-ie.min.js" integrity="sha256-yOor9fUsttajkdD0TLmQRraytTF7OIyrNiI/aQH5JO0=" crossorigin="anonymous"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.2.0/css/bootstrap-colorpicker.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.2.0/js/bootstrap-colorpicker.min.js"></script>
+
 
     <link rel="stylesheet" href="css/application.css">
     <link rel="stylesheet" href="css/traces.css">
@@ -69,6 +81,7 @@
         <div class="sidebar-tabs">
             <ul role="tablist">
                 <li><a href="#home" role="tab"><i class="fa fa-info"></i></a></li>
+                <li><a href="#layers" role="tab"><i class="fas fa-layer-group"></i></a></li>
                 <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
             </ul>
         </div>
@@ -114,8 +127,8 @@
                 </div>
             </div>
 
-            <div class="sidebar-pane" id="settings">
-                <h1 class="sidebar-header">Configuration<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            <div class="sidebar-pane" id="layers">
+                <h1 class="sidebar-header">Layers<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
                 <div class="container">
                     <!-- Tracks layer selection-->
                     <div class="row" id="switch-tracks-layer-container">
@@ -168,6 +181,27 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <!-- Settings -->
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                <div class="container">
+                    <!-- Color Picker -->
+                    <div class="row" id="color-picker-layer-container">
+                        <div class="col-sm-5">
+                            <div class="item">Couleur Traces: </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div id="color-picker" class="input-group" title="Using input value">
+                                <span class="input-group-append">
+                                    <span class="input-group-text colorpicker-input-addon"><i></i></span>
+                                </span>
+                                </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
         </div>
