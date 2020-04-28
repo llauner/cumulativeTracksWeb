@@ -58,7 +58,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.2.0/css/bootstrap-colorpicker.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.2.0/js/bootstrap-colorpicker.min.js"></script>
 
-
     <link rel="stylesheet" href="css/application.css">
     <link rel="stylesheet" href="css/traces.css">
     <link rel="stylesheet" href="css/statistics.css">
@@ -73,6 +72,7 @@
     <script src="js/vectorTracks.js"></script>
     <script src="js/measuringTool.js"></script>
     <script src="js/statistics.js"></script>
+    <script src="js/airports.js"></script>
 
 </head>
 <body>    
@@ -151,7 +151,7 @@
                     <!-- Airspace -->
                     <div class="row" id="switch-airspace-container">
                         <div class="col-sm-3">
-                            <label class="form-check-label"><input type="checkbox" class="form-check-input" id="switch-airspace">Espace Aérien</label>
+                            <label class="form-check-label"><input type="checkbox" class="form-check-input" id="switch-airspace">Espaces Aériens</label>
                         </div>
                         <div class="col-sm-9">
                             <div class="btn-group btn-group-sm btn-group-toggle disabled" data-toggle="buttons" id="group-airspace-layer-selector">
@@ -168,10 +168,14 @@
                                 <label class="btn btn-outline-primary" data-toggle="tooltip">
                                     <input type="radio" name="options" id="chk-openaip-vector-airspace" autocomplete="off">OpenAip Vector
                                 </label>
-                                
-
-
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Airports-->
+                    <div class="row" id="switch-airports-container">
+                        <div class="col-sm-3">
+                            <label class="form-check-label"><input type="checkbox" class="form-check-input" id="chk-airports">Aerodromes</label>
                         </div>
                     </div>
                     <!-- Measuring tool -->
@@ -198,8 +202,17 @@
                                 </span>
                                 </div>
                         </div>
-
                     </div>
+
+                    <!-- Scroll wheel zoom -->
+                    <div class="row" id="scroll-wheel-zoom-container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label class="form-check-label"><input type="checkbox" class="form-check-input" id="chk-scroll-wheel-zoom" checked>Scroll wheel zoom</label>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
@@ -240,5 +253,6 @@ $(function () {
 
     setupVectorTracks();
     setupRasterTracks();
+    setupAirports();
 });
 </script>

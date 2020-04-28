@@ -1,5 +1,5 @@
 :root {
-	--sidebar-height: 130px;
+	--sidebar-height: 140px;
 }
 
 .easy-button-container {
@@ -20,4 +20,8 @@
 .tooltip-inner {
 	max-width: 600px;
 	text-align: left;
+}
+
+.airport-icon {
+	color:#4a4a4a;
 }

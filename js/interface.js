@@ -31,7 +31,6 @@ function () {
     showHideRasterTracks(_isRasterTracksLayerSelected);
 });
 
-
 // --- Change airspace type ---
 $('#chk-vector-airspace, #chk-openaip-airspace, #chk-openaip-vector-airspace').on('change',
 function () {
@@ -41,13 +40,26 @@ function () {
     showHideAirspace(true);
 });
 
+// --- Show / hide airports ---
+$('#chk-airports').on('change',
+function () {
+    var show = $('#chk-airports').is(':checked');
+    showHideAirports(show);
+});
+
 // --- Show / hide measuring tools ---
 $('#chk-show-measuring-tools').on('change',
 function () {
     var show = $('#chk-show-measuring-tools').is(':checked');
     showHideMeasuringTool(show)
 });
-	
+
+// --- Scroll Wheel Zoom
+$('#chk-scroll-wheel-zoom').on('change',
+function () {
+    var checked = $('#chk-scroll-wheel-zoom').is(':checked');
+    updateMapOptions(checked);
+});
 
 
 // ----- Easy buttons -----

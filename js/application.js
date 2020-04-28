@@ -16,11 +16,15 @@ toastr.options = {
     "hideMethod": "fadeOut"
 }
 
+// Leaflet Map options : https://leafletjs.com/reference-1.6.0.html#map-option
+var _mapOptions = {
+    maxBoundsViscosity: 1,
+    scrollWheelZoom: true
+}
+
 function setupMap() {
     // Create the map
-    _map = L.map('map', {
-        maxBoundsViscosity: 1
-    }).setView(center, zoomLevel);
+    _map = L.map('map', _mapOptions).setView(center, zoomLevel);
     var sidebar = L.control.sidebar('sidebar').addTo(_map);
 
     // --- Load Airspace ---
@@ -66,4 +70,21 @@ function setupMap() {
 
     // Add scale
     L.control.scale ({maxWidth:240, metric:true, imperial:false, position: 'bottomleft'}).addTo(_map);
+}
+
+function updateMapOptions(scrollWheelZoom) {
+    setMapOption('scrollWheelZoom', scrollWheelZoom);
+}
+
+function setMapOption( newMapOptionKey, newMapOptionVal ){
+    // set map option
+    L.Util.setOptions( _map, {[newMapOptionKey]: newMapOptionVal});
+    // apply option to handler
+    if ( _map[newMapOptionKey] instanceof L.Handler ) {
+        if ( newMapOptionVal ) {
+            _map[newMapOptionKey].enable();
+        } else {
+            _map[newMapOptionKey].disable();
+        }
+    }
 }

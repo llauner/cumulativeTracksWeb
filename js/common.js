@@ -9,6 +9,7 @@ const ZipGeojsonTracksFileName = "latest-tracks.geojson.zip"
 // OpenAIP
 const OpenAipGeojsonFileName = "openaip-airspace.geojson";
 const OpenAipVectorAirspaceMetadataFileName = "openaip-airspace-metadata.json";
+const OpenAipAirportsFileName = "openaip-airport.geojson";
 
 // Netcoupe OpenAir
 const OpenAirGeojsonFileName = "netcoupe-france.geojson";
