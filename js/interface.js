@@ -8,6 +8,22 @@ var _isOpenAipTilesAirspaceSelected = false;
 var _isOpenAipVectorAirspaceSelected = false;
 
 // ----- Event handlers -----
+// --- Show / hide Tracks
+$('#chk-tracks').on('change',
+function () {
+    var show = $('#chk-tracks').is(':checked');
+    if (show) {
+        showHideVectorTracks(_isVectorTracksLayerSelected);
+        showHideRasterTracks(_isRasterTracksLayerSelected);
+        $('#group-tracks-layer-selector').removeClass('disabled');
+    }
+    else {
+        showHideVectorTracks(false);
+        showHideRasterTracks(false);
+        $('#group-tracks-layer-selector').addClass('disabled');
+    }
+});
+
 // --- Show / hide airspace ---
 $('#switch-airspace').on('change',
 function () {
