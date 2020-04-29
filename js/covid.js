@@ -13,14 +13,14 @@ function AddCovidCircle(lat,lon) {
 
 	var marker = L.marker([lat, lon]);
 	_layerDraw.addLayer(marker);
-	
 
 	// Fly to location with zoom
 	_map.flyTo(new L.LatLng(lat, lon),8.5);
+
+	updateURL(lat, lon); // Add parameter to URL so that we can bookmark
 }
 
 function handleCovidUrlParameter(covidParam) {
-	if (covidParam) {
 		try {
 			// Update interface
 			$("#chk-tracks").prop( "checked", false );              // Uncheck Tracks box
@@ -34,15 +34,31 @@ function handleCovidUrlParameter(covidParam) {
 			configureDraw();
 			// Show Drawing tools
 			showHideDrawingTools(true);
+
 			// Extract coordinates 
-			var targetLocation = covidParam.split(",");
-			var targetLat = targetLocation[0];
-			var targetLon = targetLocation[1];
-			// Draw Circle
-			AddCovidCircle(targetLat, targetLon);
+			if (covidParam) {
+				var targetLocation = covidParam.split(",");
+				var targetLat = targetLocation[0];
+				var targetLon = targetLocation[1];
+				// Draw Circle
+				AddCovidCircle(targetLat, targetLon);
+			}
 		}
 		catch (error) {
 			console.log(error);
 		}
-	}
 }
+
+/**
+ * updateURL
+ * Update URL in browser with right parameters so that we can bookmark the page
+ * @param {*} lat
+ * @param {*} lon
+ */
+function updateURL(lat,lon) {
+	var paramCovid = `?covid=${lat},${lon}`
+	if (history.pushState) {
+		var newurl = window.location.protocol + "//" + window.location.host  + paramCovid;
+		window.history.pushState({path:newurl},'',newurl);
+	}
+  }
