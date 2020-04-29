@@ -1,9 +1,11 @@
 var _layerRasterTracks = null;
 
-function setupRasterTracks() {
+function setupRasterTracks(silent=false) {
 	// ----- Load MetaData -----
     
-    _map.spin(true);
+    if (!silent) {
+        _map.spin(true);
+    }
     $.ajax({
                 url: "/tracks/latest-tracks-metadata.json",
                 type: 'GET',
@@ -29,7 +31,7 @@ function setupRasterTracks() {
                     $('#flights-count').html(flightsCount);
                     $('#processed-flights-count').html(processedFlightsCount);
 
-                    addImageOverlay();  // Add tracks image overlay
+                    addImageOverlay(silent);  // Add tracks image overlay
                 },
                 complete: function(jqXHR, textStatus) {
                     _map.spin(false);
@@ -37,7 +39,7 @@ function setupRasterTracks() {
             });
 }
 
-function addImageOverlay() {
+function addImageOverlay(silent=false) {
     // add a marker in the given location
     //L.marker(tracksMetaData.boundingBoxUpperLeft).addTo(_map); 
     //L.marker(tracksMetaData.boundingBoxLowerRight).addTo(_map);
@@ -45,19 +47,7 @@ function addImageOverlay() {
         var imageUrl = '/tracks/latest-tracks.png',
         imageBounds = [ tracksMetaData.boundingBoxUpperLeft, tracksMetaData.boundingBoxLowerRight];
         _layerRasterTracks = L.imageOverlay(imageUrl, imageBounds);
-
-        // Map Bounds : add margin and set
-        const boundPadding = 8;
-        maxBounds = imageBounds.slice();
-        maxBounds[0][0] -= boundPadding;
-        maxBounds[0][1] -= boundPadding;
-        maxBounds[1][0] += boundPadding;
-        maxBounds[1][1] += boundPadding;
-
-        //L.marker(maxBounds[0]).addTo(_map);
-        //L.marker(maxBounds[1]).addTo(_map);
-
-        _map.setMaxBounds(maxBounds);     // Max bounds: preventes map from panning
+        
         // --- map Events ---
         // _map.on('moveend', showAirspaceLabels);
         _map.on('zoomend', showAirspaceLabels);

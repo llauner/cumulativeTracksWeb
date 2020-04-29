@@ -11,9 +11,11 @@ var vectorTracksStyle = {
  * setupVectorTracks
  *
  */
-function setupVectorTracks() {
+function setupVectorTracks(silent=false) {
 	var zipVectorTracksUrl = NetcoupeTracksDataUrl + ZipGeojsonTracksFileName;
-	_map.spin(true);
+	if (!silent) {
+		_map.spin(true);
+	} 
 	JSZipUtils.getBinaryContent(zipVectorTracksUrl, function(err, data) {
 		if(err) {
 			toastr["error"]("Could not load ZIP Vector Tracks: " + zipVectorTracksUrl);
@@ -27,12 +29,12 @@ function setupVectorTracks() {
 					data = JSON.parse(data);
 				}
 				_tracksGeojson = data;
-				configureVectorTracks();
+				configureVectorTracks(silent);
 			})
 			.finally(function() {
 				_map.spin(false);
 				if (!_tracksGeojson) {
-					setupVectorTracks_Fallback();
+					setupVectorTracks_Fallback(silent);
 				}
 			});
 		});
@@ -43,13 +45,16 @@ function setupVectorTracks() {
  * setupVectorTracks
  *
  */
-function setupVectorTracks_Fallback() {
-	var message = "Loading Vector tracks from .zip failed. Falling back to normal ..."
-	console.log(message);
-	toastr["warning"](message);
+function setupVectorTracks_Fallback(silent = false) {
 	// --- Get Netcoupe OpenAir airsapce ---
 	var vectorTracksUrl = NetcoupeTracksDataUrl + GeojsonTracksFileName;
-	_map.spin(true);
+	if (!silent) {
+		var message = "Loading Vector tracks from .zip failed. Falling back to normal ..."
+		console.log(message);
+		toastr["warning"](message);
+		_map.spin(true);
+	}
+	
     $.ajax({
         url: vectorTracksUrl,
         type: 'GET',
@@ -60,7 +65,7 @@ function setupVectorTracks_Fallback() {
                 result = JSON.parse(result);
             }
 			_tracksGeojson = result;
-			configureVectorTracks();
+			configureVectorTracks(silent);
         },
         error: function(result, status, errorThrown) {
             console.log(errorThrown);
@@ -72,10 +77,13 @@ function setupVectorTracks_Fallback() {
 	});
 }
 
-function configureVectorTracks() {
+function configureVectorTracks(silent = false) {
 	_layerVectorTracks = L.geoJSON(_tracksGeojson, {
 		style: vectorTracksStyle
-	}).addTo(_map);
+	});
+	if (!silent) {
+		_layerVectorTracks.addTo(_map);
+	} 
 }
 
 function updateVectorTracksStyle(color, opacity) {

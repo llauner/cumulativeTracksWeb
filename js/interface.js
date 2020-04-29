@@ -67,7 +67,14 @@ function () {
 $('#chk-show-measuring-tools').on('change',
 function () {
     var show = $('#chk-show-measuring-tools').is(':checked');
-    showHideMeasuringTool(show)
+    showHideMeasuringTool(show);
+});
+
+// --- Show / hide drawing tools ---
+$('#chk-show-drawing-tools').on('change',
+function () {
+    var show = $('#chk-show-drawing-tools').is(':checked');
+    showHideDrawingTools(show);
 });
 
 // --- Scroll Wheel Zoom
@@ -80,11 +87,11 @@ function () {
 
 // ----- Easy buttons -----
 function setupEasyButtons() {
-    _easy = L.easyButton( 'fas fa-chart-line', function(){
+    _easyButton = L.easyButton( 'fas fa-chart-line', function(){
         showStatistics();
     });
 
-    _easy.addTo(_map);
+    _easyButton.addTo(_map);
 }
 
 // --- Init tooltips ---

@@ -18,6 +18,7 @@ toastr.options = {
 
 // Leaflet Map options : https://leafletjs.com/reference-1.6.0.html#map-option
 var _mapOptions = {
+    maxBounds: L.latLngBounds(MapMaxBounds[0], MapMaxBounds[1]),
     maxBoundsViscosity: 1,
     scrollWheelZoom: true
 }
