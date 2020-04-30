@@ -12,6 +12,8 @@ function AddCovidCircle(lat,lon) {
 	_layerDraw.addLayer(layerCircle);
 
 	var marker = L.marker([lat, lon]);
+	marker.bindPopup(`<b>Lat: </b>${lat}<br><b>Lon: </b>${lon}<br>
+	<a class="list-group-item" href="#" id="a-copy-to-clipboard"><i class="fas fa-copy fa-fw" aria-hidden="true"></i>&nbsp; Copy to Clipboard</a>`).openPopup();
 	_layerDraw.addLayer(marker);
 
 	// Fly to location with zoom
@@ -61,4 +63,21 @@ function updateURL(lat,lon) {
 		var newurl = window.location.protocol + "//" + window.location.host  + paramCovid;
 		window.history.pushState({path:newurl},'',newurl);
 	}
-  }
+}
+
+// ----- UI + Events ----------------------------------------
+// Copy to clipboard event
+$(document).on('click','#a-copy-to-clipboard',function(){
+	var urlToCopy = document.URL;
+	copyToClipboard(urlToCopy);
+});
+
+function copyToClipboard(message) {
+	$('#clipboard-content').text(message);
+
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val($('#clipboard-content').text()).select();
+    document.execCommand("copy");
+    $temp.remove();
+}
