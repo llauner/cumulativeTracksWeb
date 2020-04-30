@@ -1,6 +1,5 @@
 
 // Tracks layer
-var _isRasterTracksLayerSelected = false;
 var _isVectorTracksLayerSelected = true;
 // Airspace layer
 var _isOpenAirVectorAirspaceSelected = true;
@@ -9,19 +8,11 @@ var _isOpenAipVectorAirspaceSelected = false;
 
 // ----- Event handlers -----
 // --- Show / hide Tracks
-$('#chk-tracks').on('change',
+$('#chk-vector-tracks').on('change',
 function () {
-    var show = $('#chk-tracks').is(':checked');
-    if (show) {
-        showHideVectorTracks(_isVectorTracksLayerSelected);
-        showHideRasterTracks(_isRasterTracksLayerSelected);
-        $('#group-tracks-layer-selector').removeClass('disabled');
-    }
-    else {
-        showHideVectorTracks(false);
-        showHideRasterTracks(false);
-        $('#group-tracks-layer-selector').addClass('disabled');
-    }
+    _isVectorTracksLayerSelected = $('#chk-vector-tracks').is(':checked');
+
+    showHideVectorTracks(_isVectorTracksLayerSelected);
 });
 
 // --- Show / hide airspace ---
@@ -35,16 +26,6 @@ function () {
         $('#group-airspace-layer-selector').addClass('disabled');
     else
         $('#group-airspace-layer-selector').removeClass('disabled');
-});
-
-// --- Change Track type ---
-$('#chk-vector-tracks, #chk-raster-tracks').on('change',
-function () {
-    _isVectorTracksLayerSelected = $('#chk-vector-tracks').is(':checked');
-    _isRasterTracksLayerSelected = $('#chk-raster-tracks').is(':checked');
-
-    showHideVectorTracks(_isVectorTracksLayerSelected);
-    showHideRasterTracks(_isRasterTracksLayerSelected);
 });
 
 // --- Change airspace type ---
@@ -92,6 +73,16 @@ function setupEasyButtons() {
     });
 
     _easyButton.addTo(_map);
+}
+
+// --- Enable / Disable UI elements ---
+/**
+ * enableDisableTrackSelection
+ * Disable the track selection until the Vector tracks have been loaded
+ * @param {*} enable
+ */
+function enableDisableTrackSelection(enable) {
+
 }
 
 // --- Init tooltips ---

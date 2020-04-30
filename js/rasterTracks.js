@@ -31,7 +31,7 @@ function setupRasterTracks(silent=false) {
                     $('#flights-count').html(flightsCount);
                     $('#processed-flights-count').html(processedFlightsCount);
 
-                    addImageOverlay(silent);  // Add tracks image overlay
+                    //addImageOverlay(silent);  // Add tracks image overlay
                 },
                 complete: function(jqXHR, textStatus) {
                     _map.spin(false);
@@ -39,6 +39,7 @@ function setupRasterTracks(silent=false) {
             });
 }
 
+// ##################### DEPRECATED ########################################################################
 function addImageOverlay(silent=false) {
     // add a marker in the given location
     //L.marker(tracksMetaData.boundingBoxUpperLeft).addTo(_map); 

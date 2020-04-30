@@ -23,8 +23,8 @@ function AddCovidCircle(lat,lon) {
 function handleCovidUrlParameter(covidParam) {
 		try {
 			// Update interface
-			$("#chk-tracks").prop( "checked", false );              // Uncheck Tracks box
-			$('#chk-tracks').trigger('change');
+			$("#chk-vector-tracks").prop( "checked", false );              // Uncheck Tracks box
+			$('#chk-vector-tracks').trigger('change');
 			$('#chk-show-drawing-tools').prop( "checked", true );   // Check Drawing tools visible
 
 			// Set drawing tools options

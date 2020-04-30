@@ -138,27 +138,15 @@
                 <h1 class="sidebar-header">Layers<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
                 <div class="container">
                     <!-- Tracks layer selection-->
-                    <div class="row" id="switch-tracks-layer-container">
-                        <div class="col-sm-3">
-                            <label class="form-check-label"><input type="checkbox" class="form-check-input" id="chk-tracks" checked>Traces</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons" id="group-tracks-layer-selector">
-                                <!-- Vector-->
-                                <label class="btn btn-outline-primary active" data-toggle="tooltip-vector-tracks">
-                                    <input type="radio" name="options" id="chk-vector-tracks" autocomplete="off" checked>Traces Vectorielles
-                                </label>
-                                <!-- Image -->
-                                <label class="btn btn-outline-primary" data-toggle="tooltip-raster-tracks">
-                                    <input type="radio" name="options" id="chk-raster-tracks" autocomplete="off">Image
-                                </label>
-                            </div>
+                    <div class="row" id="switch-airports-container">
+                        <div class="col-sm-5">
+                            <label class="form-check-label"><input type="checkbox" class="form-check-input" id="chk-vector-tracks" checked>Traces Cumulées</label>
                         </div>
                     </div>
                     <!-- Airspace -->
                     <div class="row" id="switch-airspace-container">
                         <div class="col-sm-3">
-                            <label class="form-check-label"><input type="checkbox" class="form-check-input" id="switch-airspace">Espaces Aériens</label>
+                            <label class="form-check-label"><input type="checkbox" class="form-check-input" id="switch-airspace">Airspace</label>
                         </div>
                         <div class="col-sm-9">
                             <div class="btn-group btn-group-sm btn-group-toggle disabled" data-toggle="buttons" id="group-airspace-layer-selector">
