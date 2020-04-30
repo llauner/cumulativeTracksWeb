@@ -30,6 +30,7 @@ function setupVectorTracks(silent=false) {
 				}
 				_tracksGeojson = data;
 				configureVectorTracks(silent);
+				enableTrackSelection();
 			})
 			.finally(function() {
 				_map.spin(false);
@@ -66,6 +67,7 @@ function setupVectorTracks_Fallback(silent = false) {
             }
 			_tracksGeojson = result;
 			configureVectorTracks(silent);
+			enableTrackSelection();
         },
         error: function(result, status, errorThrown) {
             console.log(errorThrown);

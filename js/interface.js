@@ -11,7 +11,6 @@ var _isOpenAipVectorAirspaceSelected = false;
 $('#chk-vector-tracks').on('change',
 function () {
     _isVectorTracksLayerSelected = $('#chk-vector-tracks').is(':checked');
-
     showHideVectorTracks(_isVectorTracksLayerSelected);
 });
 
@@ -81,8 +80,16 @@ function setupEasyButtons() {
  * Disable the track selection until the Vector tracks have been loaded
  * @param {*} enable
  */
-function enableDisableTrackSelection(enable) {
+function enableTrackSelection() {
+    $('#switch-tracks-container').removeClass("disabled");
+}
 
+function enableAirspaceSelection() {
+    $('#switch-airspace-container').removeClass("disabled");
+}
+
+function enableAirportsSelection() {
+    $('#switch-airports-container').removeClass("disabled");
 }
 
 // --- Init tooltips ---

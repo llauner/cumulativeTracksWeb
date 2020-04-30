@@ -5,7 +5,7 @@ var _openAirVectorAirspaceMetadata = null;
 var _airspaceLabelsMinZoom = 9;
 
 function setupAirspace() {
-	// --- Get Netcoupe OpenAir airsapce ---
+	// --- Get Netcoupe OpenAir airspace ---
 	var airspaceUrl = NetcoupeAirspaceDataUrl + OpenAirGeojsonFileName;
 	var metadataUrl = NetcoupeAirspaceDataUrl + OpenAirMetadataFileName;
 
@@ -20,6 +20,7 @@ function setupAirspace() {
             }
 			_airspaceGeojson = result;
 			configureAirspace();
+			enableAirspaceSelection();
         },
         error: function(result, status, errorThrown) {
             console.log(errorThrown);

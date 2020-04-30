@@ -20,6 +20,7 @@ function setupAirports() {
             }
 			_airportsGeojson = result;
 			configureAirports();
+			enableAirportsSelection();
         },
         error: function(result, status, errorThrown) {
             console.log(errorThrown);
