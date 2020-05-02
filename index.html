@@ -258,6 +258,10 @@ $(function () {
     if (urlParams.has('covid')) {
         isSilent = true;
     }
+    if (urlParams.has('year')) {
+        var targetYear = parseInt(urlParams.get('year'));
+        updateUrlsForTargetYear(targetYear);    // Update URLs so that they point to the year related data
+    }
 
     setupMap();
     setupEasyButtons();

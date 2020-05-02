@@ -19,8 +19,9 @@ function setupVectorTracks(silent=false) {
 	JSZipUtils.getBinaryContent(zipVectorTracksUrl, function(err, data) {
 		if(err) {
 			toastr["error"]("Could not load ZIP Vector Tracks: " + zipVectorTracksUrl);
-			setupVectorTracks_Fallback()
-			throw err;
+			console.log(err);
+			setupVectorTracks_Fallback();
+			_map.spin(false);
 		}
 		JSZip.loadAsync(data).then(function (zip) {
 			zip.file(GeojsonTracksFileName).async("string")
@@ -48,7 +49,7 @@ function setupVectorTracks(silent=false) {
  */
 function setupVectorTracks_Fallback(silent = false) {
 	// --- Get Netcoupe OpenAir airsapce ---
-	var vectorTracksUrl = NetcoupeTracksDataUrl + GeojsonTracksFileName;
+	var vectorTracksUrl = NetcoupeTracksDataUrl + VectorGeojsonTracksFileName;
 	if (!silent) {
 		var message = "Loading Vector tracks from .zip failed. Falling back to normal ..."
 		console.log(message);

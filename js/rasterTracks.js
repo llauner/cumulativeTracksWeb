@@ -2,12 +2,12 @@ var _layerRasterTracks = null;
 
 function setupRasterTracks(silent=false) {
 	// ----- Load MetaData -----
-    
+    var tracksMetadataUrl = NetcoupeTracksDataUrl + TracksMetaDataFileName;
     if (!silent) {
         _map.spin(true);
     }
     $.ajax({
-                url: "/tracks/latest-tracks-metadata.json",
+                url: tracksMetadataUrl,
                 type: 'GET',
                 context: document.body,
                 success: function(result) {
