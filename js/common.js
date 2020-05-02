@@ -4,6 +4,7 @@ const NetcoupeTracksDataUrl = "/tracks/";
 
 // Vector Tracks
 const latestSuffix = "latest";
+
 const TracksMetaDataPrefix = "-tracks-metadata.json";
 var TracksMetaDataFileName = latestSuffix + TracksMetaDataPrefix;
 
@@ -14,6 +15,9 @@ var VectorGeojsonTracksFileName = latestSuffix + VectorGeojsonTracksPrefix;
 
 const ZipGeojsonTracksPrefix = "-tracks.geojson.zip";
 var ZipGeojsonTracksFileName = latestSuffix + ZipGeojsonTracksPrefix;
+
+const StatisticsTracksPrefix = "-tracks-statistics.json";
+var StatisticsTracksFileName = latestSuffix + StatisticsTracksPrefix;
 
 // OpenAIP
 const OpenAipGeojsonFileName = "openaip-airspace.geojson";
@@ -41,4 +45,5 @@ function updateUrlsForTargetYear(year) {
 	TracksMetaDataFileName = year + TracksMetaDataPrefix;
 	ZipGeojsonTracksFileName = year + ZipGeojsonTracksPrefix;
 	VectorGeojsonTracksFileName = year + VectorGeojsonTracksPrefix;
+	StatisticsTracksFileName = year + StatisticsTracksPrefix;
 }

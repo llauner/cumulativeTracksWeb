@@ -20,9 +20,11 @@ function loadChart() {
 
 	// Create chart instance
 	chart = am4core.create("chartdiv", am4charts.XYChart);
-	_map.spin(true);
+    _map.spin(true);
+    
+    var statisticsTrackUrl = NetcoupeTracksDataUrl + StatisticsTracksFileName;
 	$.ajax({
-                url: "/tracks/latest-tracks-statistics.json",
+                url: statisticsTrackUrl,
                 type: 'GET',
                 context: document.body,
                 success: function(result) {
