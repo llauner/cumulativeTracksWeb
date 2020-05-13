@@ -21,6 +21,9 @@ function setupAirports() {
 			_airportsGeojson = result;
 			configureAirports();
 			enableAirportsSelection();
+			if (_isShowAirportsOnStartup) {
+				showAirportsOnStartup();
+			}
         },
         error: function(result, status, errorThrown) {
             console.log(errorThrown);
@@ -66,4 +69,9 @@ function showHideAirports(show) {
 	else {
 		_layerAirports.remove();
 	}
+}
+
+function showAirportsOnStartup() {
+	$('#chk-airports').prop('checked', true);
+	$('#chk-airports').trigger('change');
 }

@@ -257,6 +257,9 @@ var _layerOpenAipVectorAirspace = null;
 var _layerOpenAipVectorAirspaceLabels = null;
 var _isLayerOpenAipVectorAirspaceLabelsShown = false;
 
+// --- Show on startup
+var _isShowAirportsOnStartup = false;
+
 var _statWindow = null
 var _easyButton = null;
 
@@ -271,6 +274,9 @@ $(function () {
     if (urlParams.has('year')) {
         var targetYear = parseInt(urlParams.get('year'));
         updateUrlsForTargetYear(targetYear);    // Update URLs so that they point to the year related data
+    }
+    if (urlParams.has('show')) {
+        _isShowAirportsOnStartup = true;
     }
 
     setupMap();
