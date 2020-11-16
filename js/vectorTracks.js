@@ -2,15 +2,16 @@ var _tracksGeojson = null;
 var _layerVectorTracks = null;
 
 var vectorTracksStyle = {
-    "color": "rgba(33, 78, 184, 0.65)",
-    "weight": 1,
-    "opacity": 0.65
+	"color": "rgba(33, 78, 184, 0.65)",
+	"weight": 1,
+	"opacity": 0.65
 };
 
 /**
  * setupVectorTracks
  *
  */
+
 function setupVectorTracks(silent=false) {
 	var zipVectorTracksUrl = NetcoupeTracksDataUrl + ZipGeojsonTracksFileName;
 	if (!silent) {
@@ -43,6 +44,7 @@ function setupVectorTracks(silent=false) {
 	});
 }
 
+
 /**
  * setupVectorTracks
  *
@@ -57,22 +59,22 @@ function setupVectorTracks_Fallback(silent = false) {
 		_map.spin(true);
 	}
 	
-    $.ajax({
-        url: vectorTracksUrl,
-        type: 'GET',
-        context: document.body,
-        dataType: "json",
-        success: function(result) {
-            if (typeof (result) !== 'object') {
-                result = JSON.parse(result);
-            }
+	$.ajax({
+		url: vectorTracksUrl,
+		type: 'GET',
+		context: document.body,
+		dataType: "json",
+		success: function(result) {
+			if (typeof (result) !== 'object') {
+				result = JSON.parse(result);
+			}
 			_tracksGeojson = result;
 			configureVectorTracks(silent);
 			enableTrackSelection();
-        },
-        error: function(result, status, errorThrown) {
-            console.log(errorThrown);
-            toastr["error"]("Could not load Vector Tracks: " + vectorTracksUrl);
+		},
+		error: function(result, status, errorThrown) {
+			console.log(errorThrown);
+			toastr["error"]("Could not load Vector Tracks: " + vectorTracksUrl);
 		},
 		complete: function(jqXHR, textStatus) {
 			_map.spin(false);
