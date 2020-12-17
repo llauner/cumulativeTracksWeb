@@ -29,7 +29,7 @@ function configureDraw() {
 	// Add control to map
 	drawControl = new L.Control.Draw(_drawControlOptions);
 	
-    // --- Event Handler ---
+	// --- Event Handler ---
 	_map.on(L.Draw.Event.CREATED, function (e) {
 		var type = e.layerType,
 			layer = e.layer;

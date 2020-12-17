@@ -1,16 +1,16 @@
 function showStatistics() {
 	if (!_statWindow) {
 		_statWindow =  L.control.window(map,{title:"Répartition des vols sur l'année",modal: true, maxWidth:1300, className:'stat-window'})
-                .content('<div id="chartdiv"></div>')
-                //.prompt({callback:function(){alert('This is called after OK click!')}})
-                ;
+				.content('<div id="chartdiv"></div>')
+				//.prompt({callback:function(){alert('This is called after OK click!')}})
+				;
 
-    _statWindow.on('show', function(e) {
-        loadChart();
-    });
+	_statWindow.on('show', function(e) {
+		loadChart();
+	});
 	}
 	
-    _statWindow.show('topLeft');
+	_statWindow.show('topLeft');
 }
 
 function loadChart() {
@@ -20,22 +20,22 @@ function loadChart() {
 
 	// Create chart instance
 	chart = am4core.create("chartdiv", am4charts.XYChart);
-    _map.spin(true);
-    
-    var statisticsTrackUrl = NetcoupeTracksDataUrl + StatisticsTracksFileName;
+	_map.spin(true);
+	
+	var statisticsTrackUrl = NetcoupeTracksDataUrl + StatisticsTracksFileName;
 	$.ajax({
-                url: statisticsTrackUrl,
-                type: 'GET',
-                context: document.body,
-                success: function(result) {
-                    // Get result metadata
-                    setupChart(result);
-                    
-                },
-                complete: function(jqXHR, textStatus) {
+				url: statisticsTrackUrl,
+				type: 'GET',
+				context: document.body,
+				success: function(result) {
+					// Get result metadata
+					setupChart(result);
+					
+				},
+				complete: function(jqXHR, textStatus) {
 					_map.spin(false);
-                }
-            });
+				}
+			});
 };
 
 function setupChart(data) {

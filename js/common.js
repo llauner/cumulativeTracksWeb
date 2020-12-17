@@ -1,4 +1,7 @@
 const HeatmapRestAPIEndpoint = "https://igcheatmap.appspot.com";
+const IgcRestApiEndpoint = "https://igcrestapi-dot-igcheatmap.appspot.com";
+
+const IgcRestApiAvailableTracksUrl = "/netcoupe/tracks";
 const NetcoupeAirspaceDataUrl = "/airspacedata/";
 const NetcoupeTracksDataUrl = "/tracks/";
 
@@ -29,21 +32,38 @@ const OpenAirGeojsonFileName = "netcoupe-france.geojson";
 const OpenAirMetadataFileName = "netcoupe-france-metadata.json";
 
 // Map
-
 const MapMaxBounds = [
 						[34.590383333333335, -9.461916666666667], 
 						[58.11829999999999, 15.603066666666663]
 ];
 
 
+
+class DayFilenames {
+	constructor(zipGeojsonTracksFileName, vectorGeojsonTracksFileName, tracksMetaDataFileName, statisticsTracksFileName) {
+		this.ZipGeojsonTracksFileName = zipGeojsonTracksFileName;
+		this.VectorGeojsonTracksFileName = vectorGeojsonTracksFileName;
+		this.TracksMetaDataFileName = tracksMetaDataFileName;
+		this.StatisticsTracksFileName = statisticsTracksFileName;
+    }
+	
+};
 /**
- * updateUrlsForTargetYear
- * Update URLs so that they point to the year related data
- * @param {*} year
+ * getFilenamesForTargetDate
+ * Builds the filenames for a given target date
+ * @param {*} target_date
  */
-function updateUrlsForTargetYear(year) {
-	TracksMetaDataFileName = year + TracksMetaDataPrefix;
-	ZipGeojsonTracksFileName = year + ZipGeojsonTracksPrefix;
-	VectorGeojsonTracksFileName = year + VectorGeojsonTracksPrefix;
-	StatisticsTracksFileName = year + StatisticsTracksPrefix;
+function getFilenamesForTargetDate(target_date) {
+	filenames = {};
+	filenames.ZipGeojsonTracksFileName = `${target_date}-tracks.geojson.zip`;
+	filenames.VectorGeojsonTracksFileName = `${target_date}-tracks.geojson`;
+	filenames.TracksMetaDataFileName = `${target_date}-tracks-metadata.json`;
+	filenames.StatisticsTracksFileName = `${target_date}-tracks-statistics.json`;
+
+	f = new DayFilenames(`${target_date}-tracks.geojson.zip`,
+		`${target_date}-tracks.geojson`,
+		`${target_date}-tracks-metadata.json`,
+		`${target_date}-tracks-statistics.json`)
+
+	return f;
 }
