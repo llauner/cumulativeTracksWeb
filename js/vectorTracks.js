@@ -6,9 +6,9 @@ var _selectedDayFilenames = null;
 
 
 var vectorTracksStyle = {
-	"color": "rgba(33, 78, 184, 0.65)",
-	"weight": 1,
-	"opacity": 0.65
+	"color": "rgba(33, 78, 184, 1)",
+	"weight": 1.5,
+	"opacity": 1
 };
 
 /**

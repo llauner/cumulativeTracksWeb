@@ -3,11 +3,13 @@
 const AvailableDayFormat = "YYYY_MM_DD";
 const datePickerFormat = "DD-MM-YYYY";
 
+var _datePickerDialog = null;
+
 var dialogOptions = {
     anchor: [0, 30],
     minSize: [200, 200],
     maxSize: [800, 800],
-    size: [800,70]
+    size: [250,60]
 };
 
 
@@ -20,13 +22,13 @@ function setupDialogWindow() {
     var contents = $("#date-picker-div").html();
 
 
-    var dialog = L.control.dialog(dialogOptions)
+    _datePickerDialog = L.control.dialog(dialogOptions)
         .setContent(contents)
         .addTo(_map);
 
-    dialog.open();
-    dialog.hideResize();
-    dialog.hideClose();;
+    _datePickerDialog.open();
+    _datePickerDialog.hideResize();
+    _datePickerDialog.hideClose();;
 }
 
 function setupDatePicker() {
