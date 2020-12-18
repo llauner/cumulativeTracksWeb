@@ -1,3 +1,5 @@
+var _chartData = null;
+
 function showStatistics() {
 	if (!_statWindow) {
 		_statWindow =  L.control.window(map,{title:"Répartition des vols sur l'année",modal: true, maxWidth:1300, className:'stat-window'})
@@ -5,8 +7,11 @@ function showStatistics() {
 				//.prompt({callback:function(){alert('This is called after OK click!')}})
 				;
 
-	_statWindow.on('show', function(e) {
-		loadChart();
+		_statWindow.on('show', function (e) {
+			if (!_chartData) {		// Load data if it's not available
+				loadChart();
+			}
+		
 	});
 	}
 	
@@ -22,14 +27,14 @@ function loadChart() {
 	chart = am4core.create("chartdiv", am4charts.XYChart);
 	_map.spin(true);
 	
-	var statisticsTrackUrl = NetcoupeTracksDataUrl + StatisticsTracksFileName;
+	var statisticsTrackUrl = IgcRestApiEndpoint + IgcRestApiTracksStatisticsUrl;
 	$.ajax({
 				url: statisticsTrackUrl,
 				type: 'GET',
 				context: document.body,
 				success: function(result) {
 					// Get result metadata
-					setupChart(result);
+					setupChart(result.result);
 					
 				},
 				complete: function(jqXHR, textStatus) {
@@ -39,7 +44,8 @@ function loadChart() {
 };
 
 function setupChart(data) {
-	chart.data = data;
+	_chartData = data;
+	chart.data = _chartData;
 
 	// Set input format for the dates
 chart.dateFormatter.inputDateFormat = "yyyy_MM_dd";

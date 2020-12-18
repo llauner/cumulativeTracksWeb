@@ -2,25 +2,16 @@ const HeatmapRestAPIEndpoint = "https://igcheatmap.appspot.com";
 const IgcRestApiEndpoint = "https://igcrestapi-dot-igcheatmap.appspot.com";
 
 const IgcRestApiAvailableTracksUrl = "/netcoupe/tracks";
+const IgcRestApiTracksStatisticsUrl = "/netcoupe/tracks/statistics";
 const NetcoupeAirspaceDataUrl = "/airspacedata/";
 const NetcoupeTracksDataUrl = "/tracks/";
 
 // Vector Tracks
-const latestSuffix = "latest";
 
 const TracksMetaDataPrefix = "-tracks-metadata.json";
-var TracksMetaDataFileName = latestSuffix + TracksMetaDataPrefix;
-
-const GeojsonTracksFileName = "latest-tracks.geojson";		// This does not change. Is also name inside zip archive
-
 const VectorGeojsonTracksPrefix = "-tracks.geojson";
-var VectorGeojsonTracksFileName = latestSuffix + VectorGeojsonTracksPrefix;
-
 const ZipGeojsonTracksPrefix = "-tracks.geojson.zip";
-var ZipGeojsonTracksFileName = latestSuffix + ZipGeojsonTracksPrefix;
 
-const StatisticsTracksPrefix = "-tracks-statistics.json";
-var StatisticsTracksFileName = latestSuffix + StatisticsTracksPrefix;
 
 // OpenAIP
 const OpenAipGeojsonFileName = "openaip-airspace.geojson";
@@ -40,12 +31,11 @@ const MapMaxBounds = [
 
 
 class DayFilenames {
-	constructor(zipGeojsonTracksFileName, vectorGeojsonTracksFileName, tracksMetaDataFileName, statisticsTracksFileName) {
+	constructor(zipGeojsonTracksFileName, vectorGeojsonTracksFileName, tracksMetaDataFileName) {
 		this.ZipGeojsonTracksFileName = zipGeojsonTracksFileName;
 		this.VectorGeojsonTracksFileName = vectorGeojsonTracksFileName;
 		this.TracksMetaDataFileName = tracksMetaDataFileName;
-		this.StatisticsTracksFileName = statisticsTracksFileName;
-    }
+	}
 	
 };
 /**
@@ -54,16 +44,13 @@ class DayFilenames {
  * @param {*} target_date
  */
 function getFilenamesForTargetDate(target_date) {
-	filenames = {};
-	filenames.ZipGeojsonTracksFileName = `${target_date}-tracks.geojson.zip`;
-	filenames.VectorGeojsonTracksFileName = `${target_date}-tracks.geojson`;
-	filenames.TracksMetaDataFileName = `${target_date}-tracks-metadata.json`;
-	filenames.StatisticsTracksFileName = `${target_date}-tracks-statistics.json`;
+	if (_targetYear) {
+		target_date = _targetYear;
+	}
 
 	f = new DayFilenames(`${target_date}-tracks.geojson.zip`,
 		`${target_date}-tracks.geojson`,
-		`${target_date}-tracks-metadata.json`,
-		`${target_date}-tracks-statistics.json`)
+		`${target_date}-tracks-metadata.json`)
 
 	return f;
 }

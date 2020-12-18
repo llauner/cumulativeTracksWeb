@@ -4,12 +4,21 @@ var _layerVectorTracks = null;
 var _selectedDayIndex = null;
 var _selectedDayFilenames = null;
 
-
 var vectorTracksStyle = {
-	"color": "rgba(33, 78, 184, 1)",
-	"weight": 1.5,
-	"opacity": 1
+						"color": "rgba(33, 78, 184, 1)",
+						"weight": 1.5,
+						"opacity": 1
 };
+
+var vectorTracksStyle_year = {
+	"color": "rgba(33, 78, 184, 0.65)",
+	"weight": 1,
+	"opacity": 0.65
+};
+
+
+
+
 
 /**
  * discoverAvailableTracks
@@ -81,7 +90,6 @@ function setupVectorTracks(silent = false) {
 		if(err) {
 			toastr["error"]("Could not load ZIP Vector Tracks: " + zipVectorTracksUrl);
 			console.log(err);
-			setupVectorTracks_Fallback();
 			_map.spin(false);
 		}
 		JSZip.loadAsync(data).then(function (zip) {
@@ -97,7 +105,8 @@ function setupVectorTracks(silent = false) {
 			.finally(function() {
 				_map.spin(false);
 				if (!_tracksGeojson) {
-					setupVectorTracks_Fallback(silent);
+					console.log(errorThrown);
+					toastr["error"]("Could not load zip Vector Tracks: " + zipVectorTracksUrl);
 				}
 			});
 		});
@@ -105,44 +114,9 @@ function setupVectorTracks(silent = false) {
 }
 
 
-/**
- * setupVectorTracks
- *
- */
-function setupVectorTracks_Fallback(silent = false) {
-	// --- Get Netcoupe OpenAir airsapce ---
-	var vectorTracksUrl = NetcoupeTracksDataUrl + VectorGeojsonTracksFileName;
-	if (!silent) {
-		var message = "Loading Vector tracks from .zip failed. Falling back to normal ..."
-		console.log(message);
-		toastr["warning"](message);
-		_map.spin(true);
-	}
-	
-	$.ajax({
-		url: vectorTracksUrl,
-		type: 'GET',
-		context: document.body,
-		dataType: "json",
-		success: function(result) {
-			if (typeof (result) !== 'object') {
-				result = JSON.parse(result);
-			}
-			_tracksGeojson = result;
-			configureVectorTracks(silent);
-			enableTrackSelection();
-		},
-		error: function(result, status, errorThrown) {
-			console.log(errorThrown);
-			toastr["error"]("Could not load Vector Tracks: " + vectorTracksUrl);
-		},
-		complete: function(jqXHR, textStatus) {
-			_map.spin(false);
-		}
-	});
-}
-
 function configureVectorTracks(silent = false) {
+	vectorTracksStyle = (_targetYear) ? vectorTracksStyle_year : vectorTracksStyle;
+	
 	_layerVectorTracks = L.geoJSON(_tracksGeojson, {
 		style: vectorTracksStyle
 	});

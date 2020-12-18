@@ -9,7 +9,7 @@ var dialogOptions = {
     anchor: [0, 30],
     minSize: [200, 200],
     maxSize: [800, 800],
-    size: [250,60]
+    size: [150,60]
 };
 
 

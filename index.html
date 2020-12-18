@@ -254,27 +254,17 @@
 
     <!--- Date Selector-->
     <div id="date-picker-div">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="item">Date:</div>
-                </div>
-
-                <div class="col-sm-7">
-                    <div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy">
-                        <input class="form-control" type="text" readonly />
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    </div>
-                </div>
-
-            </div>
+        <div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy">
+            <input class="form-control" type="text" readonly />
+            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
         </div>
     </div>
 
 </body>
 <script src="js/interface.js"></script>
 <script>
-var isAirspaceShown = false;
+    var isAirspaceShown = false;
+    var _targetYear = null;             // Set to the target year to display year round data
 
 // --- Map related --
 var zoomLevel = 6;
@@ -310,8 +300,8 @@ $(function () {
         isSilent = true;
     }
     if (urlParams.has('year')) {
-        var targetYear = parseInt(urlParams.get('year'));
-        updateUrlsForTargetYear(targetYear);    // Update URLs so that they point to the year related data
+        _targetYear = parseInt(urlParams.get('year'));
+        
     }
     if (urlParams.has('show')) {
         _isShowAirportsOnStartup = true;
