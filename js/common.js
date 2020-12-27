@@ -1,11 +1,12 @@
 const HeatmapRestAPIEndpoint = "https://igcheatmap.appspot.com";
-const IgcRestApiEndpoint = "https://igcrestapi-dot-igcheatmap.appspot.com";
-const IgcRestApi_apiKey ="?apiKey=4fdec54c-aa7e-43f9-986c-407fe52302a6"
-
-const IgcRestApiAvailableTracksUrl = "/netcoupe/tracks" + IgcRestApi_apiKey;
-const IgcRestApiTracksStatisticsUrl = "/netcoupe/tracks/statistics" + IgcRestApi_apiKey;
 const NetcoupeAirspaceDataUrl = "/airspacedata/";
 const NetcoupeTracksDataUrl = "/tracks/";
+
+const IgcRestApiEndpoint = "https://igcrestapi-dot-igcheatmap.appspot.com";
+const IgcRestApi_apiKey ="?apiKey=4fdec54c-aa7e-43f9-986c-407fe52302a6"
+const IgcRestApiAvailableTracksUrl = "/netcoupe/tracks" + IgcRestApi_apiKey;
+const IgcRestApiTracksStatisticsUrl = "/netcoupe/tracks/statistics" + IgcRestApi_apiKey;
+
 
 // Vector Tracks
 
