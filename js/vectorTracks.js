@@ -5,7 +5,7 @@ var _selectedDayIndex = null;
 var _selectedDayFilenames = null;
 
 var vectorTracksStyle = {
-						"color": "rgba(33, 78, 184, 1)",
+						"color": "rgba(33, 78, 184)",
 						"weight": 1.5,
 						"opacity": 1
 };
@@ -15,8 +15,6 @@ var vectorTracksStyle_year = {
 	"weight": 1,
 	"opacity": 0.65
 };
-
-
 
 
 
@@ -113,12 +111,19 @@ function setupVectorTracks(silent = false) {
 	});
 }
 
-
+var trackColorIndex = 0;
 function configureVectorTracks(silent = false) {
 	vectorTracksStyle = (_targetYear) ? vectorTracksStyle_year : vectorTracksStyle;
-	
+
+	var colorPalette = palette("mpn65", 20);
+
 	_layerVectorTracks = L.geoJSON(_tracksGeojson, {
-		style: vectorTracksStyle
+		style: function (feature) {
+			trackColorIndex++;
+			console.log(trackColorIndex);
+			vectorTracksStyle.color = "#" + colorPalette[trackColorIndex % colorPalette.length];
+			return vectorTracksStyle;
+			}
 	});
 	if (!silent) {
 		_layerVectorTracks.addTo(_map);
