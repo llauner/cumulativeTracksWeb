@@ -3,6 +3,10 @@ var _tracksGeojson = null;
 var _layerVectorTracks = null;
 var _selectedDayIndex = null;
 var _selectedDayFilenames = null;
+// --- Color palette ---
+var _selectedPalette = "tol-rainbow";		// Current selected color palette name
+var _selectedPaletteCount = 20;				// Number of different colors in the palette
+var _palette = null;						// Current selected color palette
 
 var vectorTracksStyle = {
 						"color": "rgba(33, 78, 184)",
@@ -40,7 +44,7 @@ function discoverAvailableTracks(silent = false) {
 			}
 			else {
 				setupDatePickerDialog();
-				selectTrack();		// Get latest track by default
+				selectTrack((_targetDate) ? _targetDate : null);		// Get latest track by default
 			}
 		},
 		error: function (result, status, errorThrown) {
@@ -67,7 +71,7 @@ function selectTrack(pickerDate) {
 	else {
 		targetAvailableDay = pickerToTrack(pickerDate);
 	}
-
+	_targetDate = targetAvailableDay;
 	_selectedDayFilenames = getFilenamesForTargetDate(targetAvailableDay);
 
 	showHideVectorTracks(false);
@@ -114,26 +118,37 @@ function setupVectorTracks(silent = false) {
 var trackColorIndex = 0;
 function configureVectorTracks(silent = false) {
 	vectorTracksStyle = (_targetYear) ? vectorTracksStyle_year : vectorTracksStyle;
-
-	var colorPalette = palette("mpn65", 20);
+	_palette = palette(_selectedPalette, _selectedPaletteCount);
 
 	_layerVectorTracks = L.geoJSON(_tracksGeojson, {
-		style: function (feature) {
-			trackColorIndex++;
-			console.log(trackColorIndex);
-			vectorTracksStyle.color = "#" + colorPalette[trackColorIndex % colorPalette.length];
-			return vectorTracksStyle;
-			}
+		style: setTrackStyleFunction
 	});
 	if (!silent) {
 		_layerVectorTracks.addTo(_map);
 	} 
 }
 
+setTrackStyleFunction = function (feature) {
+	trackColorIndex++;
+	vectorTracksStyle.color = "#" + _palette[trackColorIndex % _palette.length];
+	return vectorTracksStyle;
+}
+
+
 function updateVectorTracksStyle(color, opacity) {
-	vectorTracksStyle.color = color;
-	vectorTracksStyle.opacity = opacity;
-	_layerVectorTracks.setStyle(vectorTracksStyle);
+	// Solid color
+	if (color && opacity) {
+		vectorTracksStyle.color = color;
+		vectorTracksStyle.opacity = opacity;
+		_layerVectorTracks.setStyle(vectorTracksStyle);
+	}
+	// Palette
+	else {
+		trackColorIndex = 0;
+		_palette = palette(_selectedPalette, _selectedPaletteCount);
+		_layerVectorTracks.setStyle(setTrackStyleFunction);
+	}
+	
 }
 
 /**

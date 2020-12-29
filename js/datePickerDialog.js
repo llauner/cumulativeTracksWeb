@@ -60,7 +60,7 @@ function setupDatePicker() {
         endDate: endDate,
     });
 
-    $('#datepicker').datepicker('setDate', endDate);
+    $('#datepicker').datepicker('setDate', (_targetDate)?_targetDate:endDate);
     $('#datepicker').datepicker('setDatesDisabled', missingDays);
 
     // --- Events 

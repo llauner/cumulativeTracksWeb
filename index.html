@@ -129,6 +129,15 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-6">
+                            <div class="item">Date vol:</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="target-date" class="item"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
                             <div class="item">Analyse du:</div>
                         </div>
                         <div class="col-sm-6">
@@ -230,6 +239,35 @@
                         </div>
                     </div>
 
+                    <!-- Palette picker-->
+                    <div class="row" id="color-picker-layer-container">
+                        <div class="col-sm-5">
+                            <div class="item">Palette Couleurs: </div>
+                        </div>
+                        <div class="col-sm-7">
+
+                            <div class="dropdown">
+                                <div class="btn-group dropright">
+                                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="-40,0">
+                                        Rainbow
+                                    </button>
+                                    <ul class="dropdown-menu" id="palette-picker">
+                                        <li><a class="dropdown-item" href="#" data-value="mpn65" data-count="20">Qualitative</a></li>
+                                        <li><a class="dropdown-item" href="#" data-value="tol-rainbow" data-count="20">Rainbow</a></li>
+                                        <li><a class="dropdown-item" href="#" data-value="cb-Spectral" data-count="10">Spectral</a></li>
+                                        <li><a class="dropdown-item" href="#" data-value="tol-sq" data-count="10">Sequential</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+
+
                     <!-- Scroll wheel zoom -->
                     <div class="row" id="scroll-wheel-zoom-container">
                         <div class="row">
@@ -290,7 +328,7 @@ var _statWindow = null
 var _easyButton = null;
 
 // --- Tracks ---
-    
+    var _targetDate = null;
 
 
   // ---------- Document loaded ----------
@@ -308,6 +346,11 @@ $(function () {
     if (urlParams.has('show')) {
         _isShowAirportsOnStartup = true;
     }
+    if (urlParams.has('targetDate')) {
+        _targetDate = urlParams.get('targetDate')
+        _targetDate = trackToPicker(_targetDate);
+        getFilenamesForTargetDate(_targetDate);
+    }
 
     setupMap();
     setupEasyButtons();
@@ -315,7 +358,6 @@ $(function () {
 
     discoverAvailableTracks(isSilent);
 
-    //setupTracksMetadata(isSilent);
     setupAirports();
 
     setupDraw();

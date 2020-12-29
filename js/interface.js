@@ -136,4 +136,15 @@ $('#color-picker').on('colorpickerChange', function(event) {
     var color = event.color.toHexString();
     var alpha = event.color._color.valpha;
     updateVectorTracksStyle(color, alpha);
-    });
+});
+
+// --- Palette dropdown ---
+$(".dropdown li a").on("click", function (event) {
+    console.log("You clicked the drop downs", event)
+    $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+    $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+
+    _selectedPalette = $(this).data('value');
+    _selectedPaletteCount=parseInt($(this).data('count'));
+    updateVectorTracksStyle(null, null);
+});

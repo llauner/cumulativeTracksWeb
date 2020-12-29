@@ -19,7 +19,7 @@ function setupTracksMetadata(silent=false) {
 
 					targetDateToDisplay = targetDate.format("DD/MM/YYYY");
 					startDateToDisplay = startDate.format("DD/MM/YYYY HH:mm:ss");
-					duration = moment(endDate.diff(startDate)).format("m:s");
+					duration = moment(endDate.diff(startDate)).format("mm:ss");
 					flightsCount = metadata.flightsCount;
 					processedFlightsCount = metadata.processedFlightsCount;
 
