@@ -65,15 +65,21 @@ function discoverAvailableTracks(silent = false) {
  */
 function selectTrack(pickerDate) {
 	var targetAvailableDay = null;
-	if (!pickerDate) {
-		targetAvailableDay = _availableTracks[_availableTracks.length - 1];
+	if (!_alternativeSource) {
+		if (!pickerDate) {
+			targetAvailableDay = _availableTracks[_availableTracks.length - 1];
+		}
+		else {
+			targetAvailableDay = pickerToTrack(pickerDate);
+		}
+		_targetDate = targetAvailableDay;
+		_selectedDayFilenames = getFilenamesForTargetDate(targetAvailableDay);
 	}
+	// Alternative data source: source=xxx was set in the querystring
 	else {
-		targetAvailableDay = pickerToTrack(pickerDate);
-	}
-	_targetDate = targetAvailableDay;
-	_selectedDayFilenames = getFilenamesForTargetDate(targetAvailableDay);
-
+		_selectedDayFilenames = getFilenamesForTargetDate(_alternativeSource);
+    }
+	
 	showHideVectorTracks(false);
 	setupVectorTracks();
 	setupTracksMetadata();
@@ -84,7 +90,9 @@ function selectTrack(pickerDate) {
  * @param {any} silent
  */
 function setupVectorTracks(silent = false) {
-	var zipVectorTracksUrl = NetcoupeTracksDataUrl + _selectedDayFilenames.ZipGeojsonTracksFileName;
+	var baseUrl = (_alternativeSource) ? `${GcpStorageBucketAlternativeSourceEndpoint}/${_alternativeSource}/` : NetcoupeTracksDataUrl;
+
+	var zipVectorTracksUrl = baseUrl + _selectedDayFilenames.ZipGeojsonTracksFileName;
 	if (!silent) {
 		_map.spin(true);
 	} 

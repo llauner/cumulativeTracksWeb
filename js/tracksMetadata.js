@@ -1,7 +1,8 @@
 
 function setupTracksMetadata(silent=false) {
 	// ----- Load MetaData -----
-	var tracksMetadataUrl = NetcoupeTracksDataUrl + _selectedDayFilenames.TracksMetaDataFileName;
+	var baseUrl = (_alternativeSource) ? `${GcpStorageBucketAlternativeSourceEndpoint}/${_alternativeSource}/` : NetcoupeTracksDataUrl;
+	var tracksMetadataUrl = baseUrl + _selectedDayFilenames.TracksMetaDataFileName;
 	if (!silent) {
 		_map.spin(true);
 	}
@@ -11,8 +12,10 @@ function setupTracksMetadata(silent=false) {
 				context: document.body,
 				success: function(result) {
 					// Get result metadata
+					if (typeof (result) !== 'object') {
+						result = JSON.parse(result);
+					}
 					metadata = result;
-					tracksMetaData = result;
 					targetDate = moment(metadata.targetDate);
 					startDate = moment(metadata.script_start_time);
 					endDate = moment(metadata.script_end_time);

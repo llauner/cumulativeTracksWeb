@@ -329,6 +329,7 @@ var _easyButton = null;
 
 // --- Tracks ---
     var _targetDate = null;
+    var _alternativeSource = null;  // Alternative data source for .geojon.zip. Used when displaying custom tracks (other than daily)
 
 
   // ---------- Document loaded ----------
@@ -351,6 +352,11 @@ $(function () {
         _targetDate = trackToPicker(_targetDate);
         getFilenamesForTargetDate(_targetDate);
     }
+    if (urlParams.has('source')) {
+        _alternativeSource = urlParams.get('source')
+    }
+
+
 
     setupMap();
     setupEasyButtons();
