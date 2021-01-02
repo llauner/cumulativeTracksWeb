@@ -14,6 +14,12 @@ var vectorTracksStyle = {
 						"opacity": 1
 };
 
+var clickedVectorTracksStyle = {
+	"color": "#ff0000",
+	"weight": 5,
+	"opacity": 1
+};
+
 var vectorTracksStyle_year = {
 	"color": "rgba(33, 78, 184, 0.65)",
 	"weight": 1,
@@ -78,7 +84,7 @@ function selectTrack(pickerDate) {
 	// Alternative data source: source=xxx was set in the querystring
 	else {
 		_selectedDayFilenames = getFilenamesForTargetDate(_alternativeSource);
-    }
+	}
 	
 	showHideVectorTracks(false);
 	setupVectorTracks();
@@ -129,7 +135,8 @@ function configureVectorTracks(silent = false) {
 	_palette = palette(_selectedPalette, _selectedPaletteCount);
 
 	_layerVectorTracks = L.geoJSON(_tracksGeojson, {
-		style: setTrackStyleFunction
+		style: setTrackStyleFunction,
+		onEachFeature: onEachFeature			// Configure action when a track is clicked
 	});
 	if (!silent) {
 		_layerVectorTracks.addTo(_map);
@@ -140,6 +147,29 @@ setTrackStyleFunction = function (feature) {
 	trackColorIndex++;
 	vectorTracksStyle.color = "#" + _palette[trackColorIndex % _palette.length];
 	return vectorTracksStyle;
+}
+
+var _clickedFeatureOldStyle = null;
+var _clickedLayer = null;
+/**
+ * onEachFeature
+ * Change track style on click. Restore style of previously clicked track
+ * @param {any} feature
+ * @param {any} layer
+ */
+function onEachFeature(feature, layer) {
+	//bind click
+	layer.on('click', function (e) {
+		if (_clickedFeatureOldStyle && _clickedLayer) {
+			_clickedLayer.setStyle(_clickedFeatureOldStyle);
+		}
+		_clickedLayer = this;
+		_clickedFeatureOldStyle = Object.assign({}, vectorTracksStyle);
+		_clickedFeatureOldStyle.color = this.options.color;
+
+		this.setStyle(clickedVectorTracksStyle);
+	});
+
 }
 
 
