@@ -352,6 +352,12 @@ $(function () {
         _targetDate = trackToPicker(_targetDate);
         getFilenamesForTargetDate(_targetDate);
     }
+    if (urlParams.has('day')) {
+        _targetDate = urlParams.get('day');
+        _targetDate.replace('-', '_');
+        _targetDate = trackToPicker(_targetDate);
+        getFilenamesForTargetDate(_targetDate);
+    }
     if (urlParams.has('source')) {
         _alternativeSource = urlParams.get('source')
     }
