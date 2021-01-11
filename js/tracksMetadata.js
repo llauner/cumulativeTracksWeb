@@ -1,7 +1,8 @@
 
 function setupTracksMetadata(silent=false) {
 	// ----- Load MetaData -----
-	var baseUrl = (_alternativeSource) ? `${GcpStorageBucketAlternativeSourceEndpoint}/${_alternativeSource}/` : NetcoupeTracksDataUrl;
+	var baseUrl = (_alternativeSource) ? `${GcpStorageBucketAlternativeSourceEndpoint}/${_alternativeSource}/` :
+				(_traceAggregatorSource) ? `${GcpStorageBucketTracemapAggregatorEndpoint}/` : NetcoupeTracksDataUrl;
 	var tracksMetadataUrl = baseUrl + _selectedDayFilenames.TracksMetaDataFileName;
 	if (!silent) {
 		_map.spin(true);

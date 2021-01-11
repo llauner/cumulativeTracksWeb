@@ -148,3 +148,12 @@ $(".dropdown li a").on("click", function (event) {
     _selectedPaletteCount=parseInt($(this).data('count'));
     updateVectorTracksStyle(null, null);
 });
+
+// --- Links ---
+$('a[href="#tracks2020"]').click(function () {
+    location.replace('/?year=2020');
+}); 
+
+$('a[href="#tracks2021"]').click(function () {
+    location.replace('/?aggregatedTracks');
+}); 

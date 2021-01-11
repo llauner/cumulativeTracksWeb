@@ -71,6 +71,7 @@ function discoverAvailableTracks(silent = false) {
  */
 function selectTrack(pickerDate) {
 	var targetAvailableDay = null;
+
 	if (!_alternativeSource) {
 		if (!pickerDate) {
 			targetAvailableDay = _availableTracks[_availableTracks.length - 1];
@@ -96,7 +97,8 @@ function selectTrack(pickerDate) {
  * @param {any} silent
  */
 function setupVectorTracks(silent = false) {
-	var baseUrl = (_alternativeSource) ? `${GcpStorageBucketAlternativeSourceEndpoint}/${_alternativeSource}/` : NetcoupeTracksDataUrl;
+	var baseUrl = (_alternativeSource) ? `${GcpStorageBucketAlternativeSourceEndpoint}/${_alternativeSource}/` :
+				(_traceAggregatorSource) ? `${GcpStorageBucketTracemapAggregatorEndpoint}/` : NetcoupeTracksDataUrl;NetcoupeTracksDataUrl;
 
 	var zipVectorTracksUrl = baseUrl + _selectedDayFilenames.ZipGeojsonTracksFileName;
 	if (!silent) {
@@ -109,7 +111,8 @@ function setupVectorTracks(silent = false) {
 			_map.spin(false);
 		}
 		JSZip.loadAsync(data).then(function (zip) {
-			zip.file(_selectedDayFilenames.VectorGeojsonTracksFileName).async("string")
+			//zip.file(_selectedDayFilenames.VectorGeojsonTracksFileName).async("string")
+			zip.file(Object.values(zip.files)[0].name).async("string")
 			.then(function (data) {
 				if (typeof (data) !== 'object') {
 					data = JSON.parse(data);

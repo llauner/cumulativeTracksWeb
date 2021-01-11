@@ -8,6 +8,7 @@ const IgcRestApiAvailableTracksUrl = "/netcoupe/tracks" + IgcRestApi_apiKey;
 const IgcRestApiTracksStatisticsUrl = "/netcoupe/tracks/statistics" + IgcRestApi_apiKey;
 
 const GcpStorageBucketAlternativeSourceEndpoint = "https://netcoupe-igc-source.storage.googleapis.com"
+const GcpStorageBucketTracemapAggregatorEndpoint = "https://tracemap-trace-aggregator.storage.googleapis.com"
 
 
 // Vector Tracks

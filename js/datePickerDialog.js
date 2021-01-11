@@ -67,6 +67,10 @@ function setupDatePicker() {
     datePicker.on('changeDate', function (e) {
         var newTrackDate = moment(e.date).format(datePickerFormat);
         console.debug(`New track day selected:${newTrackDate}`);
+
+        _alternativeSource = null;
+        _targetYear = null;
+        _traceAggregatorSource = null;
        
         selectTrack(newTrackDate);
     });
