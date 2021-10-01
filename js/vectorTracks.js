@@ -141,6 +141,8 @@ function configureVectorTracks(silent = false) {
 		style: setTrackStyleFunction,
 		onEachFeature: onEachFeature			// Configure action when a track is clicked
 	});
+
+
 	if (!silent) {
 		_layerVectorTracks.addTo(_map);
 	} 
@@ -173,6 +175,10 @@ function onEachFeature(feature, layer) {
 		this.setStyle(clickedVectorTracksStyle);
 	});
 
+	// Add popup with link to Netcoupe flight details
+	var flightId = layer.feature.properties.flightId;
+	var netcoupeLink = NetcoupeFlightDetailsUrl + flightId;
+	layer.bindPopup(`<a href=${netcoupeLink} target='_blank'>Fiche Netcoupe</a>`);
 }
 
 

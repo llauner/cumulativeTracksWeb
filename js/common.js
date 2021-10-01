@@ -10,6 +10,8 @@ const IgcRestApiTracksStatisticsUrl = "/netcoupe/tracks/statistics" + IgcRestApi
 const GcpStorageBucketAlternativeSourceEndpoint = "https://netcoupe-igc-source.storage.googleapis.com"
 const GcpStorageBucketTracemapAggregatorEndpoint = "https://tracemap-trace-aggregator.storage.googleapis.com"
 
+const NetcoupeFlightDetailsUrl = "https://www.netcoupe.net/Results/FlightDetail.aspx?FlightID="
+
 
 // Vector Tracks
 
