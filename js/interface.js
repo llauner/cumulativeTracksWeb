@@ -6,6 +6,8 @@ var _isOpenAirVectorAirspaceSelected = true;
 var _isOpenAipTilesAirspaceSelected = false;
 var _isOpenAipVectorAirspaceSelected = false;
 
+var _currentAirportFilterValue = null;
+
 // ----- Event handlers -----
 // --- Show / hide Tracks
 $('#chk-vector-tracks').on('change',
@@ -156,4 +158,17 @@ $('a[href="#tracks2020"]').click(function () {
 
 $('a[href="#tracks2021"]').click(function () {
     location.replace('/?aggregatedTracks');
-}); 
+});
+
+// --- Filters ---
+$('#select-airfield').on('change',
+    function () {
+       var selectedAirfield = $("#select-airfield").val();
+        _currentAirportFilterValue = selectedAirfield;
+
+        console.log(`Filter on takeoff airfield: ${selectedAirfield} - ${_selectableAirportsName[_currentAirportFilterValue]}`)
+
+        showHideVectorTracks(false);
+        configureVectorTracks(true);
+        showHideVectorTracks(true);
+    });

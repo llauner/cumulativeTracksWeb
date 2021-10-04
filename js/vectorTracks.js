@@ -139,7 +139,8 @@ function configureVectorTracks(silent = false) {
 
 	_layerVectorTracks = L.geoJSON(_tracksGeojson, {
 		style: setTrackStyleFunction,
-		onEachFeature: onEachFeature			// Configure action when a track is clicked
+		onEachFeature: onEachFeature,			// Configure action when a track is clicked
+		filter: filterByTakeOffLocation
 	});
 	if (!silent) {
 		_layerVectorTracks.addTo(_map);
