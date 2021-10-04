@@ -8,6 +8,8 @@ var _selectedPalette = "tol-rainbow";		// Current selected color palette name
 var _selectedPaletteCount = 20;				// Number of different colors in the palette
 var _palette = null;						// Current selected color palette
 
+var _currentAirportFilterValue = null;
+
 var vectorTracksStyle = {
 						"color": "rgba(33, 78, 184)",
 						"weight": 1.5,
@@ -86,7 +88,8 @@ function selectTrack(pickerDate) {
 	else {
 		_selectedDayFilenames = getFilenamesForTargetDate(_alternativeSource);
 	}
-	
+
+	_tracksGeojson = null;
 	showHideVectorTracks(false);
 	setupVectorTracks();
 	setupTracksMetadata();
@@ -120,6 +123,7 @@ function setupVectorTracks(silent = false) {
 				_tracksGeojson = data;
 				configureVectorTracks(silent);
 				enableTrackSelection();
+				setupTakeoffAirportSelecttion();
 			})
 			.finally(function() {
 				_map.spin(false);

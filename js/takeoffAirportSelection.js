@@ -1,15 +1,21 @@
 ﻿var _airportsName = null;
 var _selectableAirportsName = [];
 
-(async () => {
-    console.log("Waiting for data to be loaded: Airports + Tracks");
-    while (_airportsGeojson == null || _tracksGeojson == null) // define the condition as you like
-        await new Promise(resolve => setTimeout(resolve, 1000));
-    // Airports list is loaded
-    console.log("Data loaded: Airports + Tracks");
-    collectAirportsName();
-    startPostProcessing();
-})();
+
+function setupTakeoffAirportSelecttion() {
+    _airportsName = null;
+    _selectableAirportsName = [];
+
+    (async () => {
+        console.log("Waiting for data to be loaded: Airports + Tracks");
+        while (_airportsGeojson == null || _tracksGeojson == null) // define the condition as you like
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        // Airports list is loaded
+        console.log("Data loaded: Airports + Tracks");
+        collectAirportsName();
+        startPostProcessing();
+    })();
+}
 
 
 /**
@@ -62,21 +68,29 @@ function startPostProcessing() {
     // Sort list of airfields
     _selectableAirportsName.sort();
     // Populate select box
+    $("#select-airfield").children().remove().end();
+    $("#select-airfield").append(`<option value=0>Aucun</option>`);
+
     _selectableAirportsName.forEach( (a, i) => {
-        $("#select-airfield").append(`<option value=${i}>${a}</option>`);
+        $("#select-airfield").append(`<option value=${i+1}>${a}</option>`);
     });
+
+    enableAirportFilterSelection();         // Enable select box
     
 }
 
+/**
+ * filterByTakeOffLocation
+ * @param {any} feature
+ */
 function filterByTakeOffLocation(feature) {
     if (_currentAirportFilterValue == null)
         return true;
 
-    var currentAirportFilterName = _selectableAirportsName[_currentAirportFilterValue];
+    var currentAirportFilterName = _selectableAirportsName[_currentAirportFilterValue - 1];
     if (feature.properties.takeoffLocation == currentAirportFilterName)
         return true;
 }
-
 
 
 /**
@@ -87,8 +101,10 @@ function filterByTakeOffLocation(feature) {
  * @returns {-1 | 0 | 1} -1 if the point is inside, 0 if it is on and 1 if it is outside the circle.
  */
 function ptInCircle(pt, center, r) {
-    var d = haversine(pt[1], pt[0], center[1], center[0]);
-    return (d <= r) ? true : false;
+    if (pt && center) {
+        var d = haversine(pt[1], pt[0], center[1], center[0]);
+        return (d <= r) ? true : false;
+    }
 }
 
 

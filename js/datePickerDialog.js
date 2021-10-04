@@ -71,7 +71,8 @@ function setupDatePicker() {
         _alternativeSource = null;
         _targetYear = null;
         _traceAggregatorSource = null;
-       
+        _currentAirportFilterValue = null;
+
         selectTrack(newTrackDate);
     });
 }
