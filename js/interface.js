@@ -165,11 +165,23 @@ $('a[href="#tracks2021"]').click(function () {
 $('a[href="#tracks2022"]').click(function () {
     location.replace('/?aggregatedTracks');
 });
+$('a[href="#help"]').click(function () {
+    location.replace('/help.htm');
+});
 
 // --- Filters ---
 $('#select-airfield').on('change',
     function () {
-       var selectedAirfield = $("#select-airfield").val();
+        var selectedAirfield = $("#select-airfield").val();
+        targetAirfieldIndex = -1;
+
+        if (_targetAirfield != null) {
+            targetAirfieldIndex = getAirportIndex(_targetAirfield);
+            selectedAirfield = (targetAirfieldIndex > -1) ? targetAirfieldIndex + 1 : selectedAirfield;
+
+            $("#select-airfield").val(selectedAirfield);
+            _targetAirfield = null;
+        }
         _currentAirportFilterValue = (selectedAirfield == 0) ? null : selectedAirfield;
 
         console.log(`Filter on takeoff airfield: ${selectedAirfield} - ${_selectableAirportsName[_currentAirportFilterValue - 1]}`)

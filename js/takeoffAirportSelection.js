@@ -14,6 +14,7 @@ function setupTakeoffAirportSelecttion() {
         console.log("Data loaded: Airports + Tracks");
         collectAirportsName();
         startPostProcessing();
+        $("#select-airfield").trigger("change");
     })();
 }
 
@@ -31,6 +32,13 @@ function collectAirportsName() {
 
 function extractAirportName(feature) {
     return `${feature.properties.name} - ${feature.properties.icao}`;
+}
+
+function getAirportIndex(airportName) {
+    const index = _selectableAirportsName.findIndex(object => {
+        return object.toLocaleLowerCase().includes(airportName.toLocaleLowerCase());
+    });
+    return index;
 }
 
 

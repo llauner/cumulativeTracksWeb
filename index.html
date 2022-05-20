@@ -318,9 +318,15 @@
                             </div>
                         </div>
                         <div class="row" id="color-picker-layer-container">
-	                        <div class="col-sm-12">
-		                        <a href="#tracks2022" class="stretched-link">Traces 2022...</a>
-	                        </div>
+                            <div class="col-sm-12">
+                                <a href="#tracks2022" class="stretched-link">Traces 2022...</a>
+                            </div>
+                        </div>
+                        <br style=“line-height:500px;”>
+                        <div class="row" id="color-picker-layer-container">
+                            <div class="col-sm-12">
+                                <a href="#help" class="stretched-link">Help</a>
+                            </div>
                         </div>
 
                     </div>
@@ -352,6 +358,7 @@
     </div>
 
 </body>
+</html>
 <script src="js/interface.js"></script>
 <script>
     var isAirspaceShown = false;
@@ -382,6 +389,7 @@ var _easyButton = null;
     var _targetDate = null;
     var _alternativeSource = null;      // Alternative data source for .geojon.zip. Used when displaying custom tracks (other than daily)
     var _traceAggregatorSource = null; // Alternative data source for .geojon.zip. Used when displaying cumulated yearly tracks
+    var _targetAirfield = null;         // Selected airport for tracks
 
 
   // ---------- Document loaded ----------
@@ -394,7 +402,6 @@ $(function () {
     }
     if (urlParams.has('year')) {
         _targetYear = parseInt(urlParams.get('year'));
-        
     }
     if (urlParams.has('show')) {
         _isShowAirportsOnStartup = true;
@@ -417,10 +424,9 @@ $(function () {
         _targetYear = new Date().getFullYear();
         _traceAggregatorSource = true;
     }
-
-   
-
-
+    if (urlParams.has('targetAirfield')) {                  // Display tracks for the selected takeoff location only
+        _targetAirfield = urlParams.get('targetAirfield');
+    }
 
     setupMap();
     setupEasyButtons();
