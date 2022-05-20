@@ -175,12 +175,18 @@ $('#select-airfield').on('change',
         var selectedAirfield = $("#select-airfield").val();
         targetAirfieldIndex = -1;
 
+        // Target airfield specified as query string parameter
         if (_targetAirfield != null) {
             targetAirfieldIndex = getAirportIndex(_targetAirfield);
             selectedAirfield = (targetAirfieldIndex > -1) ? targetAirfieldIndex + 1 : selectedAirfield;
 
             $("#select-airfield").val(selectedAirfield);
             _targetAirfield = null;
+
+            if (targetAirfieldIndex == -1) {
+                toastr["error"]("Target Airfield does not exist / not available for the current day: " + _targetAirfield);
+                console.log(err);
+            }
         }
         _currentAirportFilterValue = (selectedAirfield == 0) ? null : selectedAirfield;
 
