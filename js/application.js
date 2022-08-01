@@ -30,7 +30,6 @@ function setupMap() {
 
     // --- Load Airspace ---
     setupAirspace();
-    setupAirspace_openAipVector();
 
     // // Set up the OSM layer
     // var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

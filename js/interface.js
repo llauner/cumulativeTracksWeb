@@ -3,7 +3,6 @@
 var _isVectorTracksLayerSelected = true;
 // Airspace layer
 var _isOpenAirVectorAirspaceSelected = true;
-var _isOpenAipVectorAirspaceSelected = false;
 
 // ----- Event handlers -----
 // --- Show / hide Tracks
@@ -30,7 +29,6 @@ function () {
 $('#chk-vector-airspace, #chk-openaip-airspace, #chk-openaip-vector-airspace').on('change',
 function () {
     _isOpenAirVectorAirspaceSelected = $('#chk-vector-airspace').is(':checked');
-    _isOpenAipVectorAirspaceSelected = $('#chk-openaip-vector-airspace').is(':checked');
     showHideAirspace(true);
 });
 

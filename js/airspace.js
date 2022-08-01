@@ -58,7 +58,6 @@ function configureAirspace() {
 
 function showHideAirspace(visible) {
 	showHideOpenAirAirspace(visible && _isOpenAirVectorAirspaceSelected);
-    showHideOpenAipVectorAirspace(visible && _isOpenAipVectorAirspaceSelected);
 }
 
 function getAreaColor(feature){
