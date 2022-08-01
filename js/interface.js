@@ -3,7 +3,6 @@
 var _isVectorTracksLayerSelected = true;
 // Airspace layer
 var _isOpenAirVectorAirspaceSelected = true;
-var _isOpenAipTilesAirspaceSelected = false;
 var _isOpenAipVectorAirspaceSelected = false;
 
 // ----- Event handlers -----
@@ -31,7 +30,6 @@ function () {
 $('#chk-vector-airspace, #chk-openaip-airspace, #chk-openaip-vector-airspace').on('change',
 function () {
     _isOpenAirVectorAirspaceSelected = $('#chk-vector-airspace').is(':checked');
-    _isOpenAipTilesAirspaceSelected = $('#chk-openaip-airspace').is(':checked');
     _isOpenAipVectorAirspaceSelected = $('#chk-openaip-vector-airspace').is(':checked');
     showHideAirspace(true);
 });

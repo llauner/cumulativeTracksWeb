@@ -48,27 +48,6 @@ function setupMap() {
     });
     Thunderforest_Outdoors.addTo(_map);
 
-    _layerOpenAipTilesAirspace = new L.TileLayer("http://{s}.tile.maps.openaip.net/geowebcache/service/tms/1.0.0/openaip_basemap@EPSG%3A900913@png/{z}/{x}/{y}.png", {
-                maxZoom: maxZoomLevel+1,
-                minZoom: zoomLevel,
-                tms: true,
-                detectRetina: true,
-                subdomains: '12',
-                format: 'image/png',
-                transparent: true
-            });
-
-    _layerOpenAirspaceLabels = new L.TileLayer.WMS("http://{s}.tile.maps.openaip.net/geowebcache/service/wms", {
-                maxZoom: maxZoomLevel+1,
-                minZoom: zoomLevel,
-                layers: 'openaip_approved_airspaces_labels',
-                tileSize: 1024,
-                detectRetina: true,
-                subdomains: '12',
-                format: 'image/png',
-                transparent: true
-            });
-
     // Add scale
     L.control.scale ({maxWidth:240, metric:true, imperial:false, position: 'bottomleft'}).addTo(_map);
 }

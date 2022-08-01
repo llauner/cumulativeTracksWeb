@@ -58,8 +58,7 @@ function configureAirspace() {
 
 function showHideAirspace(visible) {
 	showHideOpenAirAirspace(visible && _isOpenAirVectorAirspaceSelected);
-	showHideOpenAipTileAirspace(visible && _isOpenAipTilesAirspaceSelected);
-	showHideOpenAipVectorAirspace(visible && _isOpenAipVectorAirspaceSelected);
+    showHideOpenAipVectorAirspace(visible && _isOpenAipVectorAirspaceSelected);
 }
 
 function getAreaColor(feature){
@@ -109,23 +108,12 @@ function showAirspaceLabels() {
 	}
 }
 
-function showHideOpenAipTileAirspace(show) {
-	if (show) {
-		_layerOpenAipTilesAirspace.addTo(_map);
-	}
-	else {
-		_layerOpenAipTilesAirspace.remove();
-		
-	}
-}
 
 function showHideOpenAirAirspace(show) {
 	if (show) {
 		_layerOpenAirVectorAirspace.addTo(_map);
-		_layerOpenAirspaceLabels.addTo(_map);
-	}
+    }
 	else {
 		_layerOpenAirVectorAirspace.remove();
-		_layerOpenAirspaceLabels.remove();
-	}
+    }
 }
