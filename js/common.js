@@ -51,9 +51,9 @@ function getFilenamesForTargetDate(target_date) {
 		target_date = _targetYear;
 	}
 
-	f = new DayFilenames(`${target_date}-tracks.geojson.zip`,
-		`${target_date}-tracks.geojson`,
-		`${target_date}-tracks-metadata.json`)
+    f = new DayFilenames(`${target_date}-tracks.geojson.zip`,
+        `${target_date}-tracks.geojson`,
+        `${target_date}-tracks-metadata.json`);
 
 	return f;
 }

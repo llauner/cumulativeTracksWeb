@@ -6,7 +6,9 @@ var _selectedDayFilenames = null;
 // --- Color palette ---
 var _selectedPalette = "tol-rainbow";		// Current selected color palette name
 var _selectedPaletteCount = 20;				// Number of different colors in the palette
-var _palette = null;						// Current selected color palette
+var _palette = palette(_selectedPalette, _selectedPaletteCount);						// Current selected color palette
+
+var _mapboxPbfLayer = null;
 
 var _currentAirportFilterValue = null;
 
@@ -21,14 +23,6 @@ var clickedVectorTracksStyle = {
 	"weight": 5,
 	"opacity": 1
 };
-
-var vectorTracksStyle_year = {
-	"color": "rgba(33, 78, 184, 0.65)",
-	"weight": 1,
-	"opacity": 0.65
-};
-
-
 
 /**
  * discoverAvailableTracks
@@ -91,8 +85,11 @@ function selectTrack(pickerDate) {
 
 	_tracksGeojson = null;
 	showHideVectorTracks(false);
-	setupVectorTracks();
-	setupTracksMetadata();
+    if (!_targetYear)
+        setupVectorTracks();			// Daily view of geojson tracks
+    else
+        setupYearlyMbTiles();			// Yearly view of Mbtiles
+	setupTracksMetadata();	
 }
 
 /**
@@ -100,10 +97,9 @@ function selectTrack(pickerDate) {
  * @param {any} silent
  */
 function setupVectorTracks(silent = false) {
-	var baseUrl = (_alternativeSource) ? `${GcpStorageBucketAlternativeSourceEndpoint}/${_alternativeSource}/` :
-				(_traceAggregatorSource) ? `${GcpStorageBucketTracemapAggregatorEndpoint}/` : NetcoupeTracksDataUrl;NetcoupeTracksDataUrl;
+	var baseUrl = (_alternativeSource) ? `${GcpStorageBucketAlternativeSourceEndpoint}/${_alternativeSource}/` : NetcoupeTracksDataUrl;
 
-	var zipVectorTracksUrl = baseUrl + _selectedDayFilenames.ZipGeojsonTracksFileName;
+    var zipVectorTracksUrl = baseUrl + _selectedDayFilenames.ZipGeojsonTracksFileName;
 	if (!silent) {
 		_map.spin(true);
 	} 
@@ -138,8 +134,7 @@ function setupVectorTracks(silent = false) {
 
 var trackColorIndex = 0;
 function configureVectorTracks(silent = false) {
-	vectorTracksStyle = (_targetYear) ? vectorTracksStyle_year : vectorTracksStyle;
-	_palette = palette(_selectedPalette, _selectedPaletteCount);
+    _palette = palette(_selectedPalette, _selectedPaletteCount);
 
 	_layerVectorTracks = L.geoJSON(_tracksGeojson, {
 		style: setTrackStyleFunction,

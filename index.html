@@ -85,6 +85,10 @@
     <!-- Palette: https://github.com/google/palette.js-->
     <script src="js/palette.js"></script>
 
+    <!-- Leaflet Vector Grid -->
+    <script type="text/javascript" src="https://unpkg.com/leaflet.vectorgrid@1.2.0"></script>
+
+
     <link rel="stylesheet" href="css/application.css">
     <link rel="stylesheet" href="css/traces.css">
     <link rel="stylesheet" href="css/statistics.css">
@@ -94,6 +98,7 @@
     <script src="js/application.js"></script>
     <script src="js/airspace.js"></script>
     <script src="js/tracksMetadata.js"></script>
+    <script src="js/mbtilesTracks.js"></script>
     <script src="js/vectorTracks.js"></script>
     <script src="js/measuringTool.js"></script>
     <script src="js/statistics.js"></script>
@@ -379,7 +384,6 @@ var _easyButton = null;
 // --- Tracks ---
     var _targetDate = null;
     var _alternativeSource = null;      // Alternative data source for .geojon.zip. Used when displaying custom tracks (other than daily)
-    var _traceAggregatorSource = null; // Alternative data source for .geojon.zip. Used when displaying cumulated yearly tracks
     var _targetAirfield = null;         // Selected airport for tracks
 
 
@@ -410,10 +414,6 @@ $(function () {
     }
     if (urlParams.has('source')) {
 	    _alternativeSource = urlParams.get('source');
-    }
-    if (urlParams.has('aggregatedTracks')) {
-        _targetYear = new Date().getFullYear();
-        _traceAggregatorSource = true;
     }
     if (urlParams.has('targetAirfield')) {                  // Display tracks for the selected takeoff location only
         _targetAirfield = urlParams.get('targetAirfield');

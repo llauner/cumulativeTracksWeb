@@ -159,7 +159,7 @@ $('a[href="#tracks2021"]').click(function () {
 });
 
 $('a[href="#tracks2022"]').click(function () {
-    location.replace('/?aggregatedTracks');
+    location.replace('/?year=2022');
 });
 $('a[href="#help"]').click(function () {
     location.replace('/help.htm');
