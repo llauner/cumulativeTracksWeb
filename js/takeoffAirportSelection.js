@@ -46,32 +46,15 @@ function getAirportIndex(airportName) {
  * assignAirportToTrack
  * */
 function startPostProcessing() {
-    _tracksGeojson.features.forEach(t => {
-        var trackStartingPoint = t.geometry.coordinates[0];
-        var takeoffAirportName = null;
 
-        // Look for airports near the takeoff location
-        _airportsGeojson.features.every(a => {
-            var airportCenter = a.geometry.coordinates;
-            var airportName = extractAirportName(a);
-
-            var IsTrackStartingAtAirport = ptInCircle(trackStartingPoint, airportCenter, 1000);
-
-            if (IsTrackStartingAtAirport) {
-                takeoffAirportName = airportName
-                //console.log(`Airport found: ${takeoffAirportName}`)
-
-                if (!_selectableAirportsName.includes(takeoffAirportName))
-                    _selectableAirportsName.push(takeoffAirportName);
-                return false;
-            }
-            return true;
-        });
-
-        if (takeoffAirportName != null) {
-            t.properties.takeoffLocation = takeoffAirportName;
-        }
-    });
+    if (_tracksGeojson.features[0].properties.takeoff == undefined ||
+        _tracksGeojson.features[0].properties.takeoff == "") {
+        console.log("No takeoff location in file. Finding takeoff location from airports list.")
+        assignAirportAndBuildAirportsList();                        // No takeoff location found in geojson
+    } else {
+        console.log("Takeoff location found in .geojson");
+        buildUsedAirportsList();                                    // Takeoff location provided in geojson
+    }
 
     // Sort list of airfields
     _selectableAirportsName.sort();
@@ -84,7 +67,48 @@ function startPostProcessing() {
     });
 
     enableAirportFilterSelection();         // Enable select box
-    
+}
+
+function buildUsedAirportsList() {
+    var flatMap = _.flatMap(_tracksGeojson.features, 'properties');
+    var usedIcaoCodes = _.uniqBy(flatMap, 'takeoff');
+    var arrIcaoCodes = _.map(usedIcaoCodes, 'takeoff');
+
+    const checker = value =>
+        arrIcaoCodes.some(element => value.includes(element));
+    _selectableAirportsName = _airportsName.filter(checker);
+}
+
+/**
+ * Find takeoff location for each track
+ * Build List of used airports in features
+ */
+function assignAirportAndBuildAirportsList() {
+    _tracksGeojson.features.forEach(t => {
+        var trackStartingPoint = t.geometry.coordinates[0];
+        var takeoffAirportName = null;
+        // Look for airports near the takeoff location
+        _airportsGeojson.features.every(a => {
+            var airportCenter = a.geometry.coordinates;
+            var airportName = extractAirportName(a);
+
+            var IsTrackStartingAtAirport = ptInCircle(trackStartingPoint, airportCenter, 1000);
+
+            if (IsTrackStartingAtAirport) {
+                takeoffAirportName = airportName;
+                //console.log(`Airport found: ${takeoffAirportName}`)
+
+                if (!_selectableAirportsName.includes(takeoffAirportName))
+                    _selectableAirportsName.push(takeoffAirportName);
+                return false;
+            }
+            return true;
+        });
+
+        if (takeoffAirportName != null) {
+            t.properties.takeoff = takeoffAirportName;
+        }
+    });
 }
 
 /**
@@ -96,7 +120,7 @@ function filterByTakeOffLocation(feature) {
         return true;
 
     var currentAirportFilterName = _selectableAirportsName[_currentAirportFilterValue - 1];
-    if (feature.properties.takeoffLocation == currentAirportFilterName)
+    if (feature.properties.takeoff == currentAirportFilterName)
         return true;
 }
 
