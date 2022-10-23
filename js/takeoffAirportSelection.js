@@ -8,7 +8,7 @@ function setupTakeoffAirportSelecttion() {
 
     (async () => {
         console.log("Waiting for data to be loaded: Airports + Tracks");
-        while (_airportsGeojson == null || _tracksGeojson == null) // define the condition as you like
+        while (_airportsGeojson == null) // define the condition as you like
             await new Promise(resolve => setTimeout(resolve, 1000));
         // Airports list is loaded
         console.log("Data loaded: Airports + Tracks");
@@ -26,7 +26,12 @@ function setupTakeoffAirportSelecttion() {
 function collectAirportsName() {
     _airportsName = [];
     _airportsGeojson.features.forEach(a => {
-        _airportsName.push(extractAirportName(a));
+        var airportName = extractAirportName(a);
+        var icao = getAirportIcao(airportName);
+        // Add only airports with existing icao
+        if (icao) {
+            _airportsName.push(airportName);
+        }
     });
 }
 
@@ -41,14 +46,24 @@ function getAirportIndex(airportName) {
     return index;
 }
 
+/**
+ * Get Icao code from string
+ * @param {str} airportLabel Lable of the airport: Le Versoud - LFLG
+ * @returns {str} The Icao code as shown in the lable: LFLG
+ */
+function getAirportIcao(airportLabel) {
+    var icao = airportLabel.split("-").pop().trim();
+    return icao;
+}
+
 
 /**
  * assignAirportToTrack
  * */
 function startPostProcessing() {
 
-    if (_tracksGeojson.features[0].properties.takeoff == undefined ||
-        _tracksGeojson.features[0].properties.takeoff == "") {
+    if (_tracksGeojson &&
+        (_tracksGeojson.features[0].properties.takeoff == undefined || _tracksGeojson.features[0].properties.takeoff == "")) {
         console.log("No takeoff location in file. Finding takeoff location from airports list.")
         assignAirportAndBuildAirportsList();                        // No takeoff location found in geojson
     } else {
@@ -70,13 +85,21 @@ function startPostProcessing() {
 }
 
 function buildUsedAirportsList() {
-    var flatMap = _.flatMap(_tracksGeojson.features, 'properties');
-    var usedIcaoCodes = _.uniqBy(flatMap, 'takeoff');
-    var arrIcaoCodes = _.map(usedIcaoCodes, 'takeoff');
+    // Geojson vector track = dayly display
+    if (_tracksGeojson) {
+        var flatMap = _.flatMap(_tracksGeojson.features, 'properties');
+        var usedIcaoCodes = _.uniqBy(flatMap, 'takeoff');
+        var arrIcaoCodes = _.map(usedIcaoCodes, 'takeoff');
 
-    const checker = value =>
-        arrIcaoCodes.some(element => value.includes(element));
-    _selectableAirportsName = _airportsName.filter(checker);
+        const checker = value =>
+            arrIcaoCodes.some(element => value.includes(element));
+        _selectableAirportsName = _airportsName.filter(checker);
+    }
+    // Mbtiles = yearly display
+    else {
+        _selectableAirportsName = _airportsName
+    }
+    
 }
 
 /**
@@ -115,12 +138,15 @@ function assignAirportAndBuildAirportsList() {
  * filterByTakeOffLocation
  * @param {any} feature
  */
-function filterByTakeOffLocation(feature) {
+function filterByTakeOffLocation(feature, featureIcao) {
     if (_currentAirportFilterValue == null)
         return true;
+    var currrentSelectedAirportLabel = _selectableAirportsName[_currentAirportFilterValue - 1];
 
-    var currentAirportFilterName = _selectableAirportsName[_currentAirportFilterValue - 1];
-    if (feature.properties.takeoff == currentAirportFilterName)
+    var featureAirport = (feature) ? feature.properties.takeoff : featureIcao;
+    var currentAirportFilterName = (feature) ? currrentSelectedAirportLabel : getAirportIcao(currrentSelectedAirportLabel)
+
+    if (featureAirport === currentAirportFilterName)
         return true;
 }
 

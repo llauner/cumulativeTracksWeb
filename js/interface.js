@@ -191,4 +191,8 @@ $('#select-airfield').on('change',
         showHideVectorTracks(false);
         configureVectorTracks(true);
         showHideVectorTracks(true);
+
+        // MbTiles
+        if (_mapboxPbfLayer)
+            _mapboxPbfLayer.redraw();
     });

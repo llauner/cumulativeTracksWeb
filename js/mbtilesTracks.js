@@ -9,16 +9,30 @@ function setupYearlyMbTiles() {
         vectorTileLayerStyles: { 
             [layerId]: function (properties, zoom) {
                 var weight = 1;
+                var opacity = 1;
+
                 var trackIndex = (properties.flightId == undefined)
                     ? Math.floor(Math.random() * (20 - 1 + 1) + 1)
                     : properties.flightId;
+                var trackColorcolor = "#" + _palette[trackIndex % _palette.length];
 
+                // ----- Selected airport: hide needed tracks -----
+                // Hide tracks without icao
+                if (_currentAirportFilterValue && !properties.takeoff) {
+                    trackColorcolor = 'rgba(0,0,0,0)';
+                }
 
-                    var trackColorcolor = "#" + _palette[trackIndex % _palette.length];
+                // Hide tracks not selected
+                if (_currentAirportFilterValue && properties.takeoff) {
+                    if (!filterByTakeOffLocation(null, properties.takeoff)) {
+                        trackColorcolor = 'rgba(0,0,0,0)';
+                    }
+                }
+
                 return {
                     weight: weight,
                     color: trackColorcolor,
-                    opacity: 1
+                    opacity: opacity
                 }
             }
         }
@@ -26,4 +40,6 @@ function setupYearlyMbTiles() {
 
     _mapboxPbfLayer = L.vectorGrid.protobuf(mapboxUrl, mapboxVectorTileOptions);
     _mapboxPbfLayer.addTo(_map);
+
+    setupTakeoffAirportSelecttion();
 }
