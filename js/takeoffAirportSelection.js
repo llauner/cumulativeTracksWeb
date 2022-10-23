@@ -13,7 +13,7 @@ function setupTakeoffAirportSelecttion() {
         // Airports list is loaded
         console.log("Data loaded: Airports + Tracks");
         collectAirportsName();
-        startPostProcessing();
+        startAirportSelectionPostProcessing();
         $("#select-airfield").trigger("change");
     })();
 }
@@ -60,17 +60,19 @@ function getAirportIcao(airportLabel) {
 /**
  * assignAirportToTrack
  * */
-function startPostProcessing() {
+function startAirportSelectionPostProcessing(isRefresh=false) {
 
-    if (_tracksGeojson &&
-        (_tracksGeojson.features[0].properties.takeoff == undefined || _tracksGeojson.features[0].properties.takeoff == "")) {
-        console.log("No takeoff location in file. Finding takeoff location from airports list.")
-        assignAirportAndBuildAirportsList();                        // No takeoff location found in geojson
-    } else {
-        console.log("Takeoff location found in .geojson");
-        buildUsedAirportsList();                                    // Takeoff location provided in geojson
+    if (!isRefresh) {
+        if (_tracksGeojson &&
+            (_tracksGeojson.features[0].properties.takeoff == undefined || _tracksGeojson.features[0].properties.takeoff == "")) {
+            console.log("No takeoff location in file. Finding takeoff location from airports list.")
+            assignAirportAndBuildAirportsList();                        // No takeoff location found in geojson
+        } else {
+            console.log("Takeoff location found in .geojson");
+            buildUsedAirportsList();                                    // Takeoff location provided in geojson
+        }
     }
-
+  
     // Sort list of airfields
     _selectableAirportsName.sort();
     // Populate select box
@@ -84,7 +86,7 @@ function startPostProcessing() {
     enableAirportFilterSelection();         // Enable select box
 }
 
-function buildUsedAirportsList() {
+function buildUsedAirportsList(usedIcaoCodesArray = null) {
     // Geojson vector track = dayly display
     if (_tracksGeojson) {
         var flatMap = _.flatMap(_tracksGeojson.features, 'properties');
@@ -97,7 +99,13 @@ function buildUsedAirportsList() {
     }
     // Mbtiles = yearly display
     else {
-        _selectableAirportsName = _airportsName
+        if (usedIcaoCodesArray != null) {
+            const checker = value =>
+                usedIcaoCodesArray.some(element => value.includes(element));
+            _selectableAirportsName = _airportsName.filter(checker);
+        }
+        else 
+            _selectableAirportsName = _airportsName
     }
     
 }

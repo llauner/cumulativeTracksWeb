@@ -1,4 +1,4 @@
-﻿
+﻿var _usedIcaoInMbTiles = [];
 
 function setupYearlyMbTiles() {
     var mapboxUrl = `https://thermalmap-tilehut-server-w4pyzgkhqa-od.a.run.app/${_targetYear}-tracks/{z}/{x}/{y}.pbf`;
@@ -29,6 +29,13 @@ function setupYearlyMbTiles() {
                     }
                 }
 
+                // Collect used Icaos code to later filter selection
+                if (properties.takeoff) {
+                    if (_usedIcaoInMbTiles.indexOf(properties.takeoff) == -1) {
+                        _usedIcaoInMbTiles.push(properties.takeoff);
+                    }
+                }
+
                 return {
                     weight: weight,
                     color: trackColorcolor,
@@ -42,4 +49,20 @@ function setupYearlyMbTiles() {
     _mapboxPbfLayer.addTo(_map);
 
     setupTakeoffAirportSelecttion();
+
+    _mapboxPbfLayer.on('load', function (e) {
+        _mapboxPbfLayer.off('load');        // Remove event listener
+        // Update list of selectable airfields according to airfields present in the tiles
+        (async () => {
+            console.log("Waiting for used Icao airfileds to be populated ...");
+            while (_usedIcaoInMbTiles.length == 0)          // This is probably not needed anymore since the layer must be loaded now.
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            // _usedIcaoInMbTiles is populated
+            console.log(`Waiting for used Icao airfileds to be populated ...OK \n_usedIcaoInMbTiles.length= ${_usedIcaoInMbTiles.length}`);
+
+            buildUsedAirportsList(_usedIcaoInMbTiles);
+            startAirportSelectionPostProcessing(true);
+        })();
+    });
+
 }
