@@ -1,4 +1,7 @@
 ﻿var _usedIcaoInMbTiles = [];
+var _tracksCount = 0;
+
+var _isUsedAirportsListDone = false;
 
 function setupYearlyMbTiles() {
     var mapboxUrl = `https://thermalmap-tilehut-server-w4pyzgkhqa-od.a.run.app/${_targetYear}-tracks/{z}/{x}/{y}.pbf`;
@@ -35,6 +38,7 @@ function setupYearlyMbTiles() {
                         _usedIcaoInMbTiles.push(properties.takeoff);
                     }
                 }
+                _tracksCount++;
 
                 return {
                     weight: weight,
@@ -53,15 +57,30 @@ function setupYearlyMbTiles() {
     _mapboxPbfLayer.on('load', function (e) {
         _mapboxPbfLayer.off('load');        // Remove event listener
         // Update list of selectable airfields according to airfields present in the tiles
+        var oldCount = -1;
+        var currentCount = 0;
+
         (async () => {
             console.log("Waiting for used Icao airfileds to be populated ...");
-            while (_usedIcaoInMbTiles.length == 0)          // This is probably not needed anymore since the layer must be loaded now.
+            // This is probably not needed anymore since the layer must be loaded now.
+            //while (_usedIcaoInMbTiles.length == 0) {
+            while (currentCount != oldCount) {
+                oldCount = currentCount;
+                currentCount = _tracksCount;
                 await new Promise(resolve => setTimeout(resolve, 1000));
+            }       
+                
             // _usedIcaoInMbTiles is populated
-            console.log(`Waiting for used Icao airfileds to be populated ...OK \n_usedIcaoInMbTiles.length= ${_usedIcaoInMbTiles.length}`);
-
-            buildUsedAirportsList(_usedIcaoInMbTiles);
-            startAirportSelectionPostProcessing(true);
+            if (!_isUsedAirportsListDone) {
+                console.log(`Waiting for used Icao airfileds to be populated ...OK \n_usedIcaoInMbTiles.length= ${_usedIcaoInMbTiles.length}`);
+                buildUsedAirportsList(_usedIcaoInMbTiles);
+                startAirportSelectionPostProcessing(true);
+                _isUsedAirportsListDone = true;
+            }
+            
+            console.log(`_tracksCount= ${_tracksCount}`);
+            // Triger UI Event to update display
+            triggerEvent_mbtilesStatsChange();
         })();
     });
 

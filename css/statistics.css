@@ -18,3 +18,6 @@ body {
 	max-height: 550px;
   }
 
+.sidebar {
+	width: 400px;
+}
