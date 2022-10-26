@@ -1,16 +1,14 @@
 var _layerOpenAirVectorAirspace = null;
 var _airspaceGeojson = null;
-var _openAirVectorAirspaceMetadata = null;
 
 var _airspaceLabelsMinZoom = 9;
 
 function setupAirspace() {
 	// --- Get Netcoupe OpenAir airspace ---
-	var airspaceUrl = NetcoupeAirspaceDataUrl + OpenAirGeojsonFileName;
-	var metadataUrl = NetcoupeAirspaceDataUrl + OpenAirMetadataFileName;
+    var metadataUrl = NetcoupeAirspaceDataUrl + OpenAirMetadataFileName;
 
     $.ajax({
-        url: airspaceUrl,
+		url: NetcoupeGeojsonAirspaceUrl,
         type: 'GET',
         context: document.body,
         dataType: "json",
@@ -27,31 +25,12 @@ function setupAirspace() {
             toastr["error"]("Could not load Airspace: " + airspaceUrl);
         }
 	});
-
-	// --- Get metadata ---
-    $.ajax({
-        url: metadataUrl,
-        type: 'GET',
-        context: document.body,
-        dataType: "json",
-        success: function(result) {
-            if (typeof (result) !== 'object') {
-                result = JSON.parse(result);
-            }
-            _openAirVectorAirspaceMetadata = result;
-            initToolTip_OpenAir(_openAirVectorAirspaceMetadata);
-        },
-        error: function(result, status, errorThrown) {
-            console.log(errorThrown);
-            toastr["error"]("Could not load Airspace metadata: " + metadataUrl);
-        }
-    });
 }
 
 function configureAirspace() {
 	_layerOpenAirVectorAirspace = L.geoJSON(_airspaceGeojson,
 		{style: areaStyle,
-		onEachFeature: labelStyle,
+		onEachFeature: labelStyle
 		}
 	);
 }
@@ -61,7 +40,7 @@ function showHideAirspace(visible) {
 }
 
 function getAreaColor(feature){
-		switch (feature.properties.CLASS){
+		switch (feature.properties.class){
 		case 'A' : return 'hsl(0, 72%, 44%)';
 		case 'C' : return 'hsl(36, 76%, 63%)';
 		case 'D' : return 'hsl(219, 59%, 32%)';
@@ -88,11 +67,13 @@ function areaStyle(feature){
 };
 
 function labelStyle(feature, layer) {
-	var labelText = feature.properties.CLASS + "<br>" + 
-					feature.properties.NAME + "<br>" +
-					feature.properties.CEILING + "	&#92; " +
-					feature.properties.FLOOR;
-	layer.bindTooltip(labelText, {opacity: 0.7});
+    var labelText = feature.properties.class +
+        "<br>" +
+        feature.properties.name +
+        "<br>" +
+		`${feature.properties.upperCeiling.value} ${feature.properties.upperCeiling.unit}` + " / " +
+        `${feature.properties.lowerCeiling.value} ${feature.properties.lowerCeiling.unit}`;
+    layer.bindTooltip(labelText, {opacity: 0.7});
 }
 
 function showAirspaceLabels() {
