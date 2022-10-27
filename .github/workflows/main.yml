@@ -28,7 +28,7 @@ jobs:
           mkdir ./data
           gsutil cp gs://tracemap-trace-aggregator/2022-tracks.geojson.zip ./data/
           cd ./data
-          unzip ./data/2022-tracks.geojson.zip
+          unzip ./2022-tracks.geojson.zip
 
       # This part here is cloning a second repository
       # While cloning the repository:
