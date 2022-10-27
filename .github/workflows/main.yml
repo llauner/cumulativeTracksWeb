@@ -25,11 +25,9 @@ jobs:
 
       - name: 'Use gcloud CLI: copy .zip file'
         run: |
-          gsutil cp gs:///tracemap-trace-aggregator/2022-tracks.geojson.zip ./data/
+          gsutil cp gs://tracemap-trace-aggregator/2022-tracks.geojson.zip ./data/
           unzip ./data/2022-tracks.geojson.zip .
           
-          
-      
       # This part here is cloning a second repository
       # While cloning the repository:
       #   - it clones the repo into the given `path`
