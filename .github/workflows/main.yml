@@ -14,9 +14,21 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Clone this repo + thermalmap-tippecanoe repo 
-        uses: actions/checkout@v3
+      - name: Authenticate to Google Cloud
+        id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: ${{ secrets.GCLOUD_SERVICE_KEY_IGCHEATMAP }}
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+
+      - name: 'Use gcloud CLI: copy .zip file'
+        run: |
+          gsutil cp gs:///tracemap-trace-aggregator/2022-tracks.geojson.zip ./data/
+          unzip ./data/2022-tracks.geojson.zip .
+          
+          
       
       # This part here is cloning a second repository
       # While cloning the repository:
@@ -39,19 +51,19 @@ jobs:
       # Runs tippecannoe
       - name: Run tippecanoe to generate tiles
         run: |
-          tippecanoe -r1 -z12 --progress-interval=20 --drop-densest-as-needed --extend-zooms-if-still-dropping  -o thermals.mbtiles thermals.geojson --force
+          tippecanoe -r1 -z12 --progress-interval=20 --drop-densest-as-needed --extend-zooms-if-still-dropping  -o 2022-tracks.mbtiles 2022-tracks.geojson --force
   
-  push-event-to-other-repo:
-    needs: build
-    name: Dispatch to other repo= thermalmap-tilehut-server
-    runs-on: ubuntu-latest
-    steps:
-      - name: Emit repository_dispatch
-        uses: mvasigh/dispatch-action@main
-        with:
-          # You should create a personal access token and store it in your repository
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          repo: thermalmap-tilehut-server
-          owner: llauner
-          event_type: external_push_mbtiles_created
+#  push-event-to-other-repo:
+#    needs: build
+#    name: Dispatch to other repo= thermalmap-tilehut-server
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Emit repository_dispatch
+#        uses: mvasigh/dispatch-action@main
+#        with:
+#          # You should create a personal access token and store it in your repository
+#          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+#          repo: thermalmap-tilehut-server
+#          owner: llauner
+#          event_type: external_push_mbtiles_created
     
