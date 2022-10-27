@@ -1,0 +1,57 @@
+name: Generate yearly tiles
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    if: ${{ github.ref == 'refs/heads/master' }}
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Clone this repo + thermalmap-tippecanoe repo 
+        uses: actions/checkout@v3
+      
+      # This part here is cloning a second repository
+      # While cloning the repository:
+      #   - it clones the repo into the given `path`
+      #   - it checks out the branch defined at `ref`
+      - name: Clone thermalmap-tippecanoe repo
+        uses: actions/checkout@v2
+        with:
+          repository: llauner/thermalmap-tippecanoe
+          path: ./tippecanoe
+          ref: master
+
+      # Install tippecanoe
+      - name: Install tippecanoe
+        run: |
+          cd tippecanoe
+          sudo make -j
+          sudo make install
+          
+      # Runs tippecannoe
+      - name: Run tippecanoe to generate tiles
+        run: |
+          tippecanoe -r1 -z12 --progress-interval=20 --drop-densest-as-needed --extend-zooms-if-still-dropping  -o thermals.mbtiles thermals.geojson --force
+  
+  push-event-to-other-repo:
+    needs: build
+    name: Dispatch to other repo= thermalmap-tilehut-server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Emit repository_dispatch
+        uses: mvasigh/dispatch-action@main
+        with:
+          # You should create a personal access token and store it in your repository
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          repo: thermalmap-tilehut-server
+          owner: llauner
+          event_type: external_push_mbtiles_created
+    
