@@ -51,7 +51,8 @@ jobs:
       # Runs tippecannoe
       - name: Run tippecanoe to generate tiles
         run: |
-          tippecanoe -r1 -z12 --progress-interval=20 --drop-densest-as-needed --extend-zooms-if-still-dropping  -o ../data/2022-tracks.mbtiles ../data/2022-tracks.geojson --force
+          cd data
+          tippecanoe -r1 -z12 --progress-interval=20 --drop-densest-as-needed --extend-zooms-if-still-dropping  -o 2022-tracks.mbtiles 2022-tracks.geojson --force
   
 #  push-event-to-other-repo:
 #    needs: build
