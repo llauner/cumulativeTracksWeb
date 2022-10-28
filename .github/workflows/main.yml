@@ -29,6 +29,7 @@ jobs:
           gsutil cp gs://tracemap-trace-aggregator/2022-tracks.geojson.zip ./data/
           cd ./data
           unzip ./2022-tracks.geojson.zip
+          chmod a+r ./2022-tracks.geojson
 
       # This part here is cloning a second repository
       # While cloning the repository:
@@ -51,7 +52,12 @@ jobs:
       # Runs tippecannoe
       - name: Run tippecanoe to generate tiles
         run: |
+          echo "########ls="
           cd data
+          echo "######## data/=#######"
+          ls
+          echo "############"
+          ls
           tippecanoe -r1 -z12 --progress-interval=20 --drop-densest-as-needed --extend-zooms-if-still-dropping  -o 2022-tracks.mbtiles 2022-tracks.geojson --force
   
 #  push-event-to-other-repo:
