@@ -52,13 +52,13 @@ jobs:
       # Runs tippecannoe
       - name: Run tippecanoe to generate tiles
         run: |
-          echo "########ls="
           cd data
-          echo "######## data/=#######"
-          ls
-          echo "############"
-          ls
           tippecanoe -r1 -z12 --progress-interval=20 --drop-densest-as-needed --extend-zooms-if-still-dropping  -o 2022-tracks.mbtiles 2022-tracks.geojson --force
+
+      - name: 'Copy result back to Cloud Storage'
+        run: |
+          cd data
+          gsutil cp ./2022-tracks.mbtiles gs://tracemap-trace-aggregator/2022-tracks.mbtiles
   
 #  push-event-to-other-repo:
 #    needs: build
