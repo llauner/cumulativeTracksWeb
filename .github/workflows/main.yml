@@ -2,6 +2,9 @@ name: Generate yearly tiles
 
 # Controls when the workflow will run
 on:
+  schedule:
+    # Every Monday at 4:00 UTC
+    - cron: '0 4 * * 1'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
