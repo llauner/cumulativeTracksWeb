@@ -58,7 +58,7 @@ jobs:
       - name: 'Copy result back to Cloud Storage'
         run: |
           cd data
-          gsutil cp ./2022-tracks.mbtiles gs://tracemap-trace-aggregator/2022-tracks.mbtiles
+          gsutil cp ./2022-tracks.mbtiles gs://tracemap-trace-aggregator-mbtiles/2022-tracks.mbtiles
   
   push-event-to-other-repo:
     needs: build
