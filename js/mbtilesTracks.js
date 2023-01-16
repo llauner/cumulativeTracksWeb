@@ -80,7 +80,7 @@ function setupYearlyMbTiles() {
             
             console.log(`_tracksCount= ${_tracksCount}`);
             // Triger UI Event to update display
-            triggerEvent_mbtilesStatsChange();
+            //triggerEvent_mbtilesStatsChange();
         })();
     });
 

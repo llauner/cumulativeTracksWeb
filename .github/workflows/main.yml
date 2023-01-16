@@ -29,10 +29,10 @@ jobs:
       - name: 'Use gcloud CLI: copy .zip file'
         run: |
           mkdir ./data
-          gsutil cp gs://tracemap-trace-aggregator/2022-tracks.geojson.zip ./data/
+          gsutil cp gs://tracemap-trace-aggregator/2023-tracks.geojson.zip ./data/
           cd ./data
-          unzip ./2022-tracks.geojson.zip
-          chmod a+r ./2022-tracks.geojson
+          unzip ./2023-tracks.geojson.zip
+          chmod a+r ./2023-tracks.geojson
 
       # This part here is cloning a second repository
       # While cloning the repository:
@@ -56,12 +56,12 @@ jobs:
       - name: Run tippecanoe to generate tiles
         run: |
           cd data
-          tippecanoe -r1 -z12 --progress-interval=20 --drop-densest-as-needed --extend-zooms-if-still-dropping  -o 2022-tracks.mbtiles 2022-tracks.geojson --force
+          tippecanoe -r1 -z12 --progress-interval=20 --drop-densest-as-needed --extend-zooms-if-still-dropping  -o 2023-tracks.mbtiles 2023-tracks.geojson --force
 
       - name: 'Copy result back to Cloud Storage'
         run: |
           cd data
-          gsutil cp ./2022-tracks.mbtiles gs://tracemap-trace-aggregator-mbtiles/2022-tracks.mbtiles
+          gsutil cp ./2023-tracks.mbtiles gs://tracemap-trace-aggregator-mbtiles/2023-tracks.mbtiles
   
   push-event-to-other-repo:
     needs: build
