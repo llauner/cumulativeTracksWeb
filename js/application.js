@@ -38,14 +38,12 @@ function setupMap() {
     // });
     // OpenStreetMap_Mapnik.addTo(_map);
 
-    var Thunderforest_Outdoors = L.tileLayer('https://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey={apikey}', {
-        attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        apikey: '45799462d9f6496aba635de79c086ea2',
-        minZoom: zoomLevel,
-        maxZoom: maxZoomLevel,
-        subdomains: ['a', 'b', 'c']
+    var baseMapLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     });
-    Thunderforest_Outdoors.addTo(_map);
+
+    baseMapLayer.addTo(_map);
 
     // Add scale
     L.control.scale ({maxWidth:240, metric:true, imperial:false, position: 'bottomleft'}).addTo(_map);
