@@ -152,6 +152,12 @@ $('a[href="#tracks2021"]').click(function () {
 $('a[href="#tracks2022"]').click(function () {
     location.replace('/?year=2022');
 });
+$('a[href="#tracks2023"]').click(function () {
+    location.replace('/?year=2023');
+});
+$('a[href="#tracks2024"]').click(function () {
+    location.replace('/?year=2024');
+});
 $('a[href="#help"]').click(function () {
     location.replace('/help.htm');
 });
